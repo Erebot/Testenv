@@ -12,6 +12,16 @@ if (!defined('__DIR__')) {
 
 set_include_path(__DIR__.'/../Core'.PATH_SEPARATOR.get_include_path());
 
+# Exceptions.
+include_once(__DIR__.'/../Core/src/exceptions/Exception.php');
+include_once(__DIR__.'/../Core/src/exceptions/NotFound.php');
+include_once(__DIR__.'/../Core/src/exceptions/NotImplemented.php');
+include_once(__DIR__.'/../Core/src/exceptions/ErrorReporting.php');
+include_once(__DIR__.'/../Core/src/exceptions/ConnectionFailure.php');
+include_once(__DIR__.'/../Core/src/exceptions/IllegalAction.php');
+include_once(__DIR__.'/../Core/src/exceptions/InvalidValue.php');
+
+# Interfaces.
 include_once(__DIR__.'/../Core/src/ifaces/i18n.php');
 include_once(__DIR__.'/../Core/src/ifaces/timer.php');
 include_once(__DIR__.'/../Core/src/ifaces/raw.php');
@@ -23,11 +33,21 @@ include_once(__DIR__.'/../Core/src/ifaces/connection.php');
 include_once(__DIR__.'/../Core/src/ifaces/serverConfig.php');
 include_once(__DIR__.'/../Core/src/ifaces/networkConfig.php');
 include_once(__DIR__.'/../Core/src/ifaces/connection.php');
+
+# Module base & IRC events.
 include_once(__DIR__.'/../Core/src/events/events.php');
-include_once(__DIR__.'/../Core/src/utils.php');
-include_once(__DIR__.'/../Core/src/styling.php');
 include_once(__DIR__.'/../Core/src/moduleBase.php');
 
+# Auxiliary classes.
+include_once(__DIR__.'/../Core/src/utils.php');
+include_once(__DIR__.'/../Core/src/styling.php');
+
+/*
+ * This is needed because PHPUnit can't mock static methods
+ * when an interface is used as the source, and we do not
+ * want to include the real class here because it might
+ * conflict with our test classes.
+ */
 abstract class ErebotTestCore
 implements iErebot
 {
