@@ -37,12 +37,18 @@ implements iErebot
     }
 }
 
-class ErebotModuleTestCase
+abstract class ErebotModuleTestCase
 extends PHPUnit_Framework_TestCase
 {
     protected $_outputBuffer = array();
+    protected $_mainConfig = NULL;
+    protected $_networkConfig = NULL;
+    protected $_serverConfig = NULL;
+    protected $_bot = NULL;
+    protected $_connection = NULL;
+    protected $_translator = NULL;
 
-    protected function _pushLine($line)
+    public function _pushLine($line)
     {
         $this->_outputBuffer[] = $line;
     }
