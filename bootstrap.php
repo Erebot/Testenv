@@ -1,46 +1,34 @@
 <?php
 
-if (!defined('__DIR__')) {
-  class __FILE_CLASS__ {
-    function  __toString() {
-      $X = debug_backtrace();
-      return dirname($X[1]['file']);
-    }
-  }
-  define('__DIR__', new __FILE_CLASS__);
-} 
-
-set_include_path(__DIR__.'/../Core'.PATH_SEPARATOR.get_include_path());
-
 # Exceptions.
-include_once(__DIR__.'/../Core/src/exceptions/Exception.php');
-include_once(__DIR__.'/../Core/src/exceptions/NotFound.php');
-include_once(__DIR__.'/../Core/src/exceptions/NotImplemented.php');
-include_once(__DIR__.'/../Core/src/exceptions/ErrorReporting.php');
-include_once(__DIR__.'/../Core/src/exceptions/ConnectionFailure.php');
-include_once(__DIR__.'/../Core/src/exceptions/IllegalAction.php');
-include_once(__DIR__.'/../Core/src/exceptions/InvalidValue.php');
+include_once('src/exceptions/Exception.php');
+include_once('src/exceptions/NotFound.php');
+include_once('src/exceptions/NotImplemented.php');
+include_once('src/exceptions/ErrorReporting.php');
+include_once('src/exceptions/ConnectionFailure.php');
+include_once('src/exceptions/IllegalAction.php');
+include_once('src/exceptions/InvalidValue.php');
 
 # Interfaces.
-include_once(__DIR__.'/../Core/src/ifaces/i18n.php');
-include_once(__DIR__.'/../Core/src/ifaces/timer.php');
-include_once(__DIR__.'/../Core/src/ifaces/raw.php');
-include_once(__DIR__.'/../Core/src/ifaces/eventHandler.php');
-include_once(__DIR__.'/../Core/src/ifaces/rawHandler.php');
-include_once(__DIR__.'/../Core/src/ifaces/mainConfig.php');
-include_once(__DIR__.'/../Core/src/ifaces/core.php');
-include_once(__DIR__.'/../Core/src/ifaces/connection.php');
-include_once(__DIR__.'/../Core/src/ifaces/serverConfig.php');
-include_once(__DIR__.'/../Core/src/ifaces/networkConfig.php');
-include_once(__DIR__.'/../Core/src/ifaces/connection.php');
+include_once('src/ifaces/i18n.php');
+include_once('src/ifaces/timer.php');
+include_once('src/ifaces/raw.php');
+include_once('src/ifaces/eventHandler.php');
+include_once('src/ifaces/rawHandler.php');
+include_once('src/ifaces/mainConfig.php');
+include_once('src/ifaces/core.php');
+include_once('src/ifaces/connection.php');
+include_once('src/ifaces/serverConfig.php');
+include_once('src/ifaces/networkConfig.php');
+include_once('src/ifaces/connection.php');
 
 # Module base & IRC events.
-include_once(__DIR__.'/../Core/src/events/events.php');
-include_once(__DIR__.'/../Core/src/moduleBase.php');
+include_once('src/events/events.php');
+include_once('src/moduleBase.php');
 
 # Auxiliary classes.
-include_once(__DIR__.'/../Core/src/utils.php');
-include_once(__DIR__.'/../Core/src/styling.php');
+include_once('src/utils.php');
+include_once('src/styling.php');
 
 /*
  * This is needed because PHPUnit can't mock static methods
