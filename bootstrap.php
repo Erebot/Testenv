@@ -1,35 +1,5 @@
 <?php
 
-# Exceptions.
-include_once('src/exceptions/Exception.php');
-include_once('src/exceptions/NotFound.php');
-include_once('src/exceptions/NotImplemented.php');
-include_once('src/exceptions/ErrorReporting.php');
-include_once('src/exceptions/ConnectionFailure.php');
-include_once('src/exceptions/IllegalAction.php');
-include_once('src/exceptions/InvalidValue.php');
-
-# Interfaces.
-include_once('src/ifaces/i18n.php');
-include_once('src/ifaces/timer.php');
-include_once('src/ifaces/raw.php');
-include_once('src/ifaces/eventHandler.php');
-include_once('src/ifaces/rawHandler.php');
-include_once('src/ifaces/mainConfig.php');
-include_once('src/ifaces/core.php');
-include_once('src/ifaces/connection.php');
-include_once('src/ifaces/serverConfig.php');
-include_once('src/ifaces/networkConfig.php');
-include_once('src/ifaces/connection.php');
-
-# Module base & IRC events.
-include_once('src/events/events.php');
-include_once('src/moduleBase.php');
-
-# Auxiliary classes.
-include_once('src/utils.php');
-include_once('src/styling.php');
-
 /*
  * This is needed because PHPUnit can't mock static methods
  * when an interface is used as the source, and we do not
@@ -37,7 +7,7 @@ include_once('src/styling.php');
  * conflict with our test classes.
  */
 abstract class ErebotTestCore
-implements iErebot
+implements Erebot_Interface_Core
 {
     public static function getVersion()
     {
@@ -65,12 +35,12 @@ extends PHPUnit_Framework_TestCase
     {
         $this->_outputBuffer = array();
         $sxml = new SimpleXMLElement('<foo/>');
-        $this->_mainConfig = $this->getMock('iErebotMainConfig', array(), array(), '', FALSE, FALSE, FALSE);
-        $this->_networkConfig = $this->getMock('iErebotNetworkConfig', array(), array($this->_mainConfig, $sxml), '', FALSE, FALSE, FALSE);
-        $this->_serverConfig = $this->getMock('iErebotServerConfig', array(), array($this->_networkConfig, $sxml), '', FALSE, FALSE, FALSE);
+        $this->_mainConfig = $this->getMock('Erebot_Interface_Config_Main', array(), array(), '', FALSE, FALSE, FALSE);
+        $this->_networkConfig = $this->getMock('Erebot_Interface_Config_Network', array(), array($this->_mainConfig, $sxml), '', FALSE, FALSE, FALSE);
+        $this->_serverConfig = $this->getMock('Erebot_Interface_Config_Server', array(), array($this->_networkConfig, $sxml), '', FALSE, FALSE, FALSE);
         $this->_bot = $this->getMock('ErebotTestCore', array(), array($this->_mainConfig), '', FALSE, FALSE, FALSE);
-        $this->_connection = $this->getMock('iErebotConnection', array(), array($this->_bot, $this->_serverConfig), '', FALSE, FALSE, FALSE);
-        $this->_translator = $this->getMock('iErebotI18n', array(), array('', ''), '', FALSE, FALSE, FALSE);
+        $this->_connection = $this->getMock('Erebot_Interface_Connection', array(), array($this->_bot, $this->_serverConfig), '', FALSE, FALSE, FALSE);
+        $this->_translator = $this->getMock('Erebot_Interface_I18n', array(), array('', ''), '', FALSE, FALSE, FALSE);
 
         $this->_connection
             ->expects($this->any())
