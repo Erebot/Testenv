@@ -1,5 +1,36 @@
 <?php
 
+# Exceptions.
+include_once('Erebot/Exception.php');
+include_once('Erebot/NotFoundException.php');
+include_once('Erebot/NotImplementedException.php');
+include_once('Erebot/ErrorReportingException.php');
+include_once('Erebot/ConnectionFailureException.php');
+include_once('Erebot/IllegalActionException.php');
+include_once('Erebot/InvalidValueException.php');
+
+# Interfaces.
+include_once('Erebot/Interface/I18n.php');
+include_once('Erebot/Interface/Timer.php');
+include_once('Erebot/Interface/Event/Raw.php');
+include_once('Erebot/Interface/EventHandler.php');
+include_once('Erebot/Interface/RawHandler.php');
+include_once('Erebot/Interface/Config/Main.php');
+include_once('Erebot/Interface/Core.php');
+include_once('Erebot/Interface/Connection.php');
+include_once('Erebot/Interface/Config/Server.php');
+include_once('Erebot/Interface/Config/Network.php');
+include_once('Erebot/Interface/Connection.php');
+
+# Module base & IRC events.
+include_once('Erebot/Interface/Event/Generic.php');
+include_once('Erebot/Interface/Event/Raw.php');
+include_once('Erebot/Module/Base.php');
+
+# Auxiliary classes.
+include_once('Erebot/Utils.php');
+include_once('Erebot/Styling.php');
+
 /*
  * This is needed because PHPUnit can't mock static methods
  * when an interface is used as the source, and we do not
