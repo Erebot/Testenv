@@ -176,4 +176,4 @@ foreach (
     if (!class_exists($preload, TRUE) &&
         !interface_exists($preload, TRUE))
         throw new Exception('Could not preload "'.$preload.'"');
-
+unset($preload);
