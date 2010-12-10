@@ -23,6 +23,8 @@ function Erebot_testenv_autoloader($className)
     if ('@php_dir@' == '@'.'php_dir'.'@') {
         $parts = explode(DIRECTORY_SEPARATOR, $path);
         $repos_root = dirname(dirname(dirname(dirname(dirname(__FILE__)))));
+        if (basename($repos_root) == 'modules')
+            $repos_root = dirname($repos_root);
         if (count($parts) > 2 && $parts[2] != 'Base' &&
             array_slice($parts, 0, 2) == array('Erebot', 'Module'))
             array_unshift($parts, $repos_root, 'modules', $parts[2], 'trunk', 'src');
