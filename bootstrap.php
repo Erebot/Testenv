@@ -1,35 +1,60 @@
 <?php
 
-# Exceptions.
-include_once('Erebot/Exception.php');
-include_once('Erebot/NotFoundException.php');
-include_once('Erebot/NotImplementedException.php');
-include_once('Erebot/ErrorReportingException.php');
-include_once('Erebot/ConnectionFailureException.php');
-include_once('Erebot/IllegalActionException.php');
-include_once('Erebot/InvalidValueException.php');
+// Avoid harmless warning on some
+// badly-configured PHP installations.
+date_default_timezone_set('UTC');
 
-# Interfaces.
-include_once('Erebot/Interface/I18n.php');
-include_once('Erebot/Interface/Timer.php');
-include_once('Erebot/Interface/Event/Raw.php');
-include_once('Erebot/Interface/EventHandler.php');
-include_once('Erebot/Interface/RawHandler.php');
-include_once('Erebot/Interface/Config/Main.php');
-include_once('Erebot/Interface/Core.php');
-include_once('Erebot/Interface/Connection.php');
-include_once('Erebot/Interface/Config/Server.php');
-include_once('Erebot/Interface/Config/Network.php');
-include_once('Erebot/Interface/Connection.php');
+if (!defined('__DIR__')) {
+  class __FILE_CLASS__ {
+    function  __toString() {
+      $X = debug_backtrace();
+      return dirname($X[1]['file']);
+    }
+  }
+  define('__DIR__', new __FILE_CLASS__);
+}
 
-# Module base & IRC events.
-include_once('Erebot/Interface/Event/Generic.php');
-include_once('Erebot/Interface/Event/Raw.php');
-include_once('Erebot/Module/Base.php');
+function Erebot_testenv_autoloader($className)
+{
+    $class = ltrim($className, '\\');
+    $path = str_replace(array('\\', '_'), DIRECTORY_SEPARATOR, $class);
 
-# Auxiliary classes.
-include_once('Erebot/Utils.php');
-include_once('Erebot/Styling.php');
+    // When running from the trunk.
+    if ('@php_dir@' == '@'.'php_dir'.'@') {
+        $parts = explode(DIRECTORY_SEPARATOR, $path);
+        $repos_root = dirname(dirname(dirname(dirname(dirname(__FILE__)))));
+        if (count($parts) > 2 && $parts[2] != 'Base' &&
+            array_slice($parts, 0, 2) == array('Erebot', 'Module'))
+            array_unshift($parts, $repos_root, 'modules', $parts[2], 'trunk', 'src');
+        else if ($parts[0] == 'Plop')
+            array_unshift($parts, $repos_root, 'logging', 'trunk', 'src');
+        else if ($parts[0] == 'Erebot')
+            array_unshift($parts, $repos_root, 'core', 'trunk', 'src');
+        // Otherwise, the path gets restored to its previous state,
+        // where PHP uses the usual include_path to locate the file.
+        $path = implode(DIRECTORY_SEPARATOR, $parts);
+    }
+    // When running from a pear/pyrus installation.
+    else array_unshift($parts, '@php_dir@');
+
+    $path .= '.php';
+    if (($fp = @fopen($path, 'rb', TRUE)) !== FALSE) {
+        fclose($fp);
+        unset($fp);
+        include_once($path);
+    }
+}
+
+// Register the autoloader, using whatever's available.
+if (function_exists('spl_autoload_register'))
+    spl_autoload_register('Erebot_testenv_autoloader');
+else {
+    function __autoload($class)
+    {
+        return Erebot_testenv_autoloader($class);
+    }
+}
+
 
 /*
  * This is needed because PHPUnit can't mock static methods
@@ -103,10 +128,50 @@ extends PHPUnit_Framework_TestCase
             ->method('getTranslator')
             ->will($this->returnValue($this->_translator));
 
+        $this->_mainConfig
+            ->expects($this->any())
+            ->method('getCommandsPrefix')
+            ->will($this->returnValue('!'));
+
         $this->_translator
             ->expects($this->any())
             ->method('gettext')
             ->will($this->returnArgument(0));
     }
 }
+
+// Configure Plop if possible.
+if (class_exists('Plop', TRUE)) {
+    $logging =& Plop::getInstance();
+    $logging->basicConfig();
+    unset($logging);
+}
+
+// Preload some of the classes.
+foreach (
+    array(
+        'Erebot_NotFoundException',
+        'Erebot_NotImplementedException',
+        'Erebot_ErrorReportingException',
+        'Erebot_ConnectionFailureException',
+        'Erebot_IllegalActionException',
+        'Erebot_InvalidValueException',
+        'Erebot_Interface_I18n',
+        'Erebot_Interface_Timer',
+        'Erebot_Interface_Event_Raw',
+        'Erebot_Interface_EventHandler',
+        'Erebot_Interface_RawHandler',
+        'Erebot_Interface_Config_Main',
+        'Erebot_Interface_Core',
+        'Erebot_Interface_Connection',
+        'Erebot_Interface_Config_Server',
+        'Erebot_Interface_Config_Network',
+        'Erebot_Interface_Connection',
+        'Erebot_Interface_Event_Generic',
+        'Erebot_Interface_Event_Raw',
+        'Erebot_Module_Base',
+    ) as $preload)
+    if (!class_exists($preload, TRUE) &&
+        !interface_exists($preload, TRUE))
+        throw new Exception('Could not preload "'.$preload.'"');
 
