@@ -4,16 +4,6 @@
 // badly-configured PHP installations.
 date_default_timezone_set('UTC');
 
-if (!defined('__DIR__')) {
-  class __FILE_CLASS__ {
-    function  __toString() {
-      $X = debug_backtrace();
-      return dirname($X[1]['file']);
-    }
-  }
-  define('__DIR__', new __FILE_CLASS__);
-}
-
 function Erebot_testenv_autoloader($className)
 {
     $class = ltrim($className, '\\');
