@@ -105,6 +105,26 @@ extends PHPUnit_Framework_TestCase
             ->method('getConfig')
             ->will($this->returnValue($this->_networkConfig));
 
+        $this->_connection
+            ->expects($this->any())
+            ->method('irccmp')
+            ->will($this->returnCallback('strcmp'));
+
+        $this->_connection
+            ->expects($this->any())
+            ->method('ircncmp')
+            ->will($this->returnCallback('strncmp'));
+
+        $this->_connection
+            ->expects($this->any())
+            ->method('irccasecmp')
+            ->will($this->returnCallback('strcasecmp'));
+
+        $this->_connection
+            ->expects($this->any())
+            ->method('ircncasecmp')
+            ->will($this->returnCallback('strncasecmp'));
+
         $this->_networkConfig
             ->expects($this->any())
             ->method('getMainCfg')
