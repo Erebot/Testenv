@@ -141,6 +141,11 @@ extends PHPUnit_Framework_TestCase
             ->method('ircncasecmp')
             ->will($this->returnCallback('strncasecmp'));
 
+        $this->_connection
+            ->expects($this->any())
+            ->method('normalizeNick')
+            ->will($this->returnArgument(0));
+
         $this->_networkConfig
             ->expects($this->any())
             ->method('getMainCfg')
