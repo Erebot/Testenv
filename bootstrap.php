@@ -99,12 +99,12 @@ extends PHPUnit_Framework_TestCase
     {
         $this->_outputBuffer = array();
         $sxml = new SimpleXMLElement('<foo/>');
-        $this->_mainConfig = $this->getMock('Erebot_Interface_Config_Main', array(), array(), '', FALSE, FALSE, FALSE);
-        $this->_networkConfig = $this->getMock('Erebot_Interface_Config_Network', array(), array($this->_mainConfig, $sxml), '', FALSE, FALSE, FALSE);
-        $this->_serverConfig = $this->getMock('Erebot_Interface_Config_Server', array(), array($this->_networkConfig, $sxml), '', FALSE, FALSE, FALSE);
-        $this->_bot = $this->getMock('ErebotTestCore', array(), array($this->_mainConfig), '', FALSE, FALSE, FALSE);
-        $this->_connection = $this->getMock('Erebot_Interface_Connection', array(), array($this->_bot, $this->_serverConfig), '', FALSE, FALSE, FALSE);
-        $this->_translator = $this->getMock('Erebot_Interface_I18n', array(), array('', ''), '', FALSE, FALSE, FALSE);
+        $this->_mainConfig = $this->getMock('Erebot_Interface_Config_Main', array(), array(), '', FALSE, FALSE);
+        $this->_networkConfig = $this->getMock('Erebot_Interface_Config_Network', array(), array($this->_mainConfig, $sxml), '', FALSE, FALSE);
+        $this->_serverConfig = $this->getMock('Erebot_Interface_Config_Server', array(), array($this->_networkConfig, $sxml), '', FALSE, FALSE);
+        $this->_bot = $this->getMock('ErebotTestCore', array(), array($this->_mainConfig), '', FALSE, FALSE);
+        $this->_connection = $this->getMock('Erebot_Interface_Connection', array(), array($this->_bot, $this->_serverConfig), '', FALSE, FALSE);
+        $this->_translator = $this->getMock('Erebot_Interface_I18n', array(), array('', ''), '', FALSE, FALSE);
 
         $this->_connection
             ->expects($this->any())
@@ -119,7 +119,7 @@ extends PHPUnit_Framework_TestCase
         $this->_connection
             ->expects($this->any())
             ->method('getConfig')
-            ->will($this->returnValue($this->_networkConfig));
+            ->will($this->returnValue($this->_serverConfig));
 
         $this->_connection
             ->expects($this->any())
@@ -155,6 +155,26 @@ extends PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('getTranslator')
             ->will($this->returnValue($this->_translator));
+
+        $this->_serverConfig
+            ->expects($this->any())
+            ->method('getMainCfg')
+            ->will($this->returnValue($this->_mainConfig));
+
+        $this->_serverConfig
+            ->expects($this->any())
+            ->method('getTranslator')
+            ->will($this->returnValue($this->_translator));
+
+        $this->_serverConfig
+            ->expects($this->any())
+            ->method('getNetworkConfig')
+            ->will($this->returnValue($this->_networkConfig));
+
+        $this->_mainConfig
+            ->expects($this->any())
+            ->method('getMainCfg')
+            ->will($this->returnValue($this->_mainConfig));
 
         $this->_mainConfig
             ->expects($this->any())
