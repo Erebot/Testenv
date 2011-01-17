@@ -20,6 +20,7 @@
 // badly-configured PHP installations.
 date_default_timezone_set('UTC');
 
+// An autoloader which copes with the repository's layout.
 function Erebot_testenv_autoloader($className)
 {
     $class = ltrim($className, '\\');
@@ -75,6 +76,8 @@ implements Erebot_Interface_Core
 {
     public static function getVersion()
     {
+        // The version is usually left unused,
+        // so we just return NULL here.
         return NULL;
     }
 }
@@ -82,23 +85,54 @@ implements Erebot_Interface_Core
 abstract class ErebotModuleTestCase
 extends PHPUnit_Framework_TestCase
 {
-    protected $_outputBuffer = array();
-    protected $_mainConfig = NULL;
-    protected $_networkConfig = NULL;
-    protected $_serverConfig = NULL;
-    protected $_bot = NULL;
-    protected $_connection = NULL;
-    protected $_translator = NULL;
+    protected $_outputBuffer    = array();
+    protected $_mainConfig      = NULL;
+    protected $_networkConfig   = NULL;
+    protected $_serverConfig    = NULL;
+    protected $_bot             = NULL;
+    protected $_connection      = NULL;
+    protected $_translator      = NULL;
 
+    // Used to simulate a line being sent to the connection.
     public function _pushLine($line)
     {
         $this->_outputBuffer[] = $line;
+    }
+
+    // Needed because PHPUnit passes an additional NULL
+    // and str*cmp will choke on it.
+    public function _strcmp($a, $b)
+    {
+        return strcmp($a, $b);
+    }
+
+    // Needed because PHPUnit passes an additional NULL
+    // and str*cmp will choke on it.
+    public function _strncmp($a, $b, $n)
+    {
+        return strncmp($a, $b, $n);
+    }
+
+    // Needed because PHPUnit passes an additional NULL
+    // and str*cmp will choke on it.
+    public function _strcasecmp($a, $b)
+    {
+        return strcasecmp($a, $b);
+    }
+
+    // Needed because PHPUnit passes an additional NULL
+    // and str*cmp will choke on it.
+    public function _strncasecmp($a, $b, $n)
+    {
+        return strncasecmp($a, $b, $n);
     }
 
     public function setUp()
     {
         $this->_outputBuffer = array();
         $sxml = new SimpleXMLElement('<foo/>');
+
+        // Create the basic pieces needed to create the module.
         $this->_mainConfig = $this->getMock('Erebot_Interface_Config_Main', array(), array(), '', FALSE, FALSE);
         $this->_networkConfig = $this->getMock('Erebot_Interface_Config_Network', array(), array($this->_mainConfig, $sxml), '', FALSE, FALSE);
         $this->_serverConfig = $this->getMock('Erebot_Interface_Config_Server', array(), array($this->_networkConfig, $sxml), '', FALSE, FALSE);
@@ -106,6 +140,7 @@ extends PHPUnit_Framework_TestCase
         $this->_connection = $this->getMock('Erebot_Interface_Connection', array(), array($this->_bot, $this->_serverConfig), '', FALSE, FALSE);
         $this->_translator = $this->getMock('Erebot_Interface_I18n', array(), array('', ''), '', FALSE, FALSE);
 
+        // Now, add some useful behaviour to those pieces.
         $this->_connection
             ->expects($this->any())
             ->method('getBot')
@@ -124,22 +159,22 @@ extends PHPUnit_Framework_TestCase
         $this->_connection
             ->expects($this->any())
             ->method('irccmp')
-            ->will($this->returnCallback('strcmp'));
+            ->will($this->returnCallback(array($this, '_strcmp')));
 
         $this->_connection
             ->expects($this->any())
             ->method('ircncmp')
-            ->will($this->returnCallback('strncmp'));
+            ->will($this->returnCallback(array($this, '_strncmp')));
 
         $this->_connection
             ->expects($this->any())
             ->method('irccasecmp')
-            ->will($this->returnCallback('strcasecmp'));
+            ->will($this->returnCallback(array($this, '_strcasecmp')));
 
         $this->_connection
             ->expects($this->any())
             ->method('ircncasecmp')
-            ->will($this->returnCallback('strncasecmp'));
+            ->will($this->returnCallback(array($this, '_strncasecmp')));
 
         $this->_connection
             ->expects($this->any())
