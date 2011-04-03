@@ -246,7 +246,6 @@ foreach (
         'Erebot_InvalidValueException',
         'Erebot_Interface_I18n',
         'Erebot_Interface_Timer',
-        'Erebot_Interface_Event_Raw',
         'Erebot_Interface_EventHandler',
         'Erebot_Interface_RawHandler',
         'Erebot_Interface_Config_Main',
@@ -254,9 +253,6 @@ foreach (
         'Erebot_Interface_Connection',
         'Erebot_Interface_Config_Server',
         'Erebot_Interface_Config_Network',
-        'Erebot_Interface_Connection',
-        'Erebot_Interface_Event_Generic',
-        'Erebot_Interface_Event_Raw',
         'Erebot_Module_Base',
     ) as $preload)
     if (!class_exists($preload, TRUE) &&
