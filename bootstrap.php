@@ -137,7 +137,7 @@ extends PHPUnit_Framework_TestCase
         $this->_networkConfig = $this->getMock('Erebot_Interface_Config_Network', array(), array($this->_mainConfig, $sxml), '', FALSE, FALSE);
         $this->_serverConfig = $this->getMock('Erebot_Interface_Config_Server', array(), array($this->_networkConfig, $sxml), '', FALSE, FALSE);
         $this->_bot = $this->getMock('ErebotTestCore', array(), array($this->_mainConfig), '', FALSE, FALSE);
-        $this->_connection = $this->getMock('Erebot_Interface_Connection', array(), array($this->_bot, $this->_serverConfig), '', FALSE, FALSE);
+        $this->_connection = $this->getMock('Erebot_Connection', array(), array($this->_bot, $this->_serverConfig), '', FALSE, FALSE);
         $this->_translator = $this->getMock('Erebot_Interface_I18n', array(), array('', ''), '', FALSE, FALSE);
 
         // Now, add some useful behaviour to those pieces.
