@@ -82,6 +82,20 @@ implements Erebot_Interface_Core
     }
 }
 
+abstract class ErebotTestI18n
+implements Erebot_Interface_I18n
+{
+    public static function nameToCategory($name)
+    {
+        return NULL;
+    }
+
+    public static function categoryToName($category)
+    {
+        return NULL;
+    }
+}
+
 abstract class ErebotModuleTestCase
 extends PHPUnit_Framework_TestCase
 {
@@ -138,7 +152,7 @@ extends PHPUnit_Framework_TestCase
         $this->_serverConfig = $this->getMock('Erebot_Interface_Config_Server', array(), array($this->_networkConfig, $sxml), '', FALSE, FALSE);
         $this->_bot = $this->getMock('ErebotTestCore', array(), array($this->_mainConfig), '', FALSE, FALSE);
         $this->_connection = $this->getMock('Erebot_Connection', array(), array($this->_bot, $this->_serverConfig), '', FALSE, FALSE);
-        $this->_translator = $this->getMock('Erebot_Interface_I18n', array(), array('', ''), '', FALSE, FALSE);
+        $this->_translator = $this->getMock('ErebotTestI18n', array(), array('', ''), '', FALSE, FALSE);
 
         // Now, add some useful behaviour to those pieces.
         $this->_connection
