@@ -153,6 +153,8 @@ extends PHPUnit_Framework_TestCase
         $this->_bot = $this->getMock('ErebotTestCore', array(), array($this->_mainConfig), '', FALSE, FALSE);
         $this->_connection = $this->getMock('Erebot_Connection', array(), array($this->_bot, $this->_serverConfig), '', FALSE, FALSE);
         $this->_translator = $this->getMock('ErebotTestI18n', array(), array('', ''), '', FALSE, FALSE);
+        $this->_eventHandler = $this->getMock('Erebot_Interface_EventHandler', array(), array(), '', FALSE, FALSE);
+        $this->_rawHandler = $this->getMock('Erebot_Interface_RawHandler', array(), array(), '', FALSE, FALSE);
 
         // Now, add some useful behaviour to those pieces.
         $this->_connection
