@@ -20,50 +20,42 @@
 // badly-configured PHP installations.
 date_default_timezone_set('UTC');
 
-// An autoloader which copes with the repository's layout.
-function Erebot_testenv_autoloader($className)
-{
-    $class = ltrim($className, '\\');
-    $path = str_replace(array('\\', '_'), DIRECTORY_SEPARATOR, $class);
+if ('@php_dir@' == '@'.'php_dir'.'@') {
+    $base = dirname(dirname(TESTENV_DIR . DIRECTORY_SEPARATOR)) .
+            DIRECTORY_SEPARATOR;
+    require(
+        $base .
+        'vendor' . DIRECTORY_SEPARATOR .
+        'Erebot_API' . DIRECTORY_SEPARATOR .
+        'src' . DIRECTORY_SEPARATOR .
+        'Erebot' . DIRECTORY_SEPARATOR .
+        'Autoload.php'
+    );
 
-    // When running from the trunk.
-    if ('@php_dir@' == '@'.'php_dir'.'@') {
-        $parts = explode(DIRECTORY_SEPARATOR, $path);
-        $repos_root = dirname(dirname(dirname(dirname(dirname(__FILE__)))));
-        if (basename($repos_root) == 'modules')
-            $repos_root = dirname($repos_root);
-        if (count($parts) > 2 && $parts[2] != 'Base' &&
-            array_slice($parts, 0, 2) == array('Erebot', 'Module'))
-            array_unshift($parts, $repos_root, 'modules', $parts[2], 'trunk', 'src');
-        else if ($parts[0] == 'Plop')
-            array_unshift($parts, $repos_root, 'logging', 'trunk', 'src');
-        else if ($parts[0] == 'Erebot')
-            array_unshift($parts, $repos_root, 'core', 'trunk', 'src');
-        // Otherwise, the path gets restored to its previous state,
-        // where PHP uses the usual include_path to locate the file.
-        $path = implode(DIRECTORY_SEPARATOR, $parts);
-    }
-    // When running from a pear/pyrus installation.
-    else array_unshift($parts, '@php_dir@');
+    // Add the component's sources to the Autoloader.
+    Erebot_Autoload::initialize($base . "src");
 
-    $path .= '.php';
-    if (($fp = @fopen($path, 'rb', TRUE)) !== FALSE) {
-        fclose($fp);
-        unset($fp);
-        include_once($path);
+    // Add vendor sources too.
+    $base .= "vendor";
+    foreach (scandir($base) as $path) {
+        if (trim($path, '.') == '')
+            continue;
+        $path = $base . DIRECTORY_SEPARATOR .
+                $path . DIRECTORY_SEPARATOR;
+        if (is_dir($path . 'src'))
+            Erebot_Autoload::initialize($path . 'src');
+        if (is_dir($path . 'lib'))  // for sfService.
+            Erebot_Autoload::initialize($path . 'lib');
     }
+    // Register include_path with the Autoloader.
+    foreach (explode(PATH_SEPARATOR, get_include_path()) as $path)
+        Erebot_Autoload::initialize($path);
 }
-
-// Register the autoloader, using whatever's available.
-if (function_exists('spl_autoload_register'))
-    spl_autoload_register('Erebot_testenv_autoloader');
+// Otherwise, we're probably in Pyrus/PEAR.
 else {
-    function __autoload($class)
-    {
-        return Erebot_testenv_autoloader($class);
-    }
+    require('Erebot/Autoload.php');
+    Erebot_Autoload::initialize('@php_dir@');
 }
-
 
 /*
  * This is needed because PHPUnit can't mock static methods
