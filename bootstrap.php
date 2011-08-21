@@ -136,6 +136,17 @@ extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_outputBuffer = array();
+
+        $this->_createMocks()
+        $this->_setConnectionExpectations();
+        $this->_setNetworkConfigExpectations();
+        $this->_setServerConfigExpectations();
+        $this->_setMainConfigExpectations();
+        $this->_setTranslatorExpectations();
+    }
+
+    protected function _createMocks()
+    {
         $sxml = new SimpleXMLElement('<foo/>');
 
         // Create the basic pieces needed to create the module.
@@ -147,8 +158,10 @@ extends PHPUnit_Framework_TestCase
         $this->_translator = $this->getMock('ErebotTestI18n', array(), array('', ''), '', FALSE, FALSE);
         $this->_eventHandler = $this->getMock('Erebot_Interface_EventHandler', array(), array(), '', FALSE, FALSE);
         $this->_rawHandler = $this->getMock('Erebot_Interface_RawHandler', array(), array(), '', FALSE, FALSE);
+    }
 
-        // Now, add some useful behaviour to those pieces.
+    protected function _setConnectionExpectations()
+    {
         $this->_connection
             ->expects($this->any())
             ->method('getBot')
@@ -188,7 +201,10 @@ extends PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('normalizeNick')
             ->will($this->returnArgument(0));
+    }
 
+    protected function _setNetworkConfigExpectations()
+    {
         $this->_networkConfig
             ->expects($this->any())
             ->method('getMainCfg')
@@ -198,7 +214,10 @@ extends PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('getTranslator')
             ->will($this->returnValue($this->_translator));
+    }
 
+    protected function _setServerConfigExpectations()
+    {
         $this->_serverConfig
             ->expects($this->any())
             ->method('getMainCfg')
@@ -213,7 +232,10 @@ extends PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('getNetworkConfig')
             ->will($this->returnValue($this->_networkConfig));
+    }
 
+    protected function _setMainConfigExpectations()
+    {
         $this->_mainConfig
             ->expects($this->any())
             ->method('getMainCfg')
@@ -228,7 +250,10 @@ extends PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('getCommandsPrefix')
             ->will($this->returnValue('!'));
+    }
 
+    protected function _setTranslatorExpectations()
+    {
         $this->_translator
             ->expects($this->any())
             ->method('gettext')
