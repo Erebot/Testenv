@@ -137,7 +137,7 @@ extends PHPUnit_Framework_TestCase
     {
         $this->_outputBuffer = array();
 
-        $this->_createMocks()
+        $this->_createMocks();
         $this->_setConnectionExpectations();
         $this->_setNetworkConfigExpectations();
         $this->_setServerConfigExpectations();
