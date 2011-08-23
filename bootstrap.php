@@ -88,6 +88,20 @@ implements Erebot_Interface_I18n
     }
 }
 
+/**
+ * One interface to rule them all,
+ * one interface to pass the tests,
+ * one interface to mock them all
+ * and in the unit tests bind them. */
+interface   ErebotTestConnectionInterface
+extends     Erebot_Interface_ModuleContainer,
+            Erebot_Interface_IrcComparator,
+            Erebot_Interface_EventDispatcher,
+            Erebot_Interface_EventFactory,
+            Erebot_Interface_BidirectionalConnection
+{
+}
+
 abstract class ErebotModuleTestCase
 extends PHPUnit_Framework_TestCase
 {
@@ -154,7 +168,7 @@ extends PHPUnit_Framework_TestCase
         $this->_networkConfig = $this->getMock('Erebot_Interface_Config_Network', array(), array($this->_mainConfig, $sxml), '', FALSE, FALSE);
         $this->_serverConfig = $this->getMock('Erebot_Interface_Config_Server', array(), array($this->_networkConfig, $sxml), '', FALSE, FALSE);
         $this->_bot = $this->getMock('ErebotTestCore', array(), array($this->_mainConfig), '', FALSE, FALSE);
-        $this->_connection = $this->getMock('Erebot_Interface_Connection', array(), array($this->_bot, $this->_serverConfig), '', FALSE, FALSE);
+        $this->_connection = $this->getMock('ErebotTestConnectionInterface', array(), array($this->_bot, $this->_serverConfig), '', FALSE, FALSE);
         $this->_translator = $this->getMock('ErebotTestI18n', array(), array('', ''), '', FALSE, FALSE);
         $this->_eventHandler = $this->getMock('Erebot_Interface_EventHandler', array(), array(), '', FALSE, FALSE);
         $this->_rawHandler = $this->getMock('Erebot_Interface_RawHandler', array(), array(), '', FALSE, FALSE);
