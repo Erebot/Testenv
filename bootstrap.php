@@ -121,8 +121,16 @@ implements      Erebot_Interface_Styling
 
     public function assign($var, $value)
     {
-        $this->_vars['name="'.$var.'"'] = 'name="'.$value.'"';
-        $this->_vars["name='".$var."'"] = "name='".$value."'";
+        if (!is_array($value)) {
+            $this->_vars['name="'.$var.'"'] = 'name="'.$value.'"';
+            $this->_vars["name='".$var."'"] = "name='".$value."'";
+        }
+        else {
+            $this->_vars['from="'.$var.'"'] =
+                'from="'.var_export($value, TRUE).'"';
+            $this->_vars["from='".$var."'"] =
+                "from='".var_export($value, TRUE)."'";
+        }
     }
 
     public function render()
