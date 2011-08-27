@@ -141,6 +141,7 @@ extends PHPUnit_Framework_TestCase
     protected $_bot             = NULL;
     protected $_connection      = NULL;
     protected $_translator      = NULL;
+    protected $_factory         = array();
 
     // Used to simulate a line being sent to the connection.
     public function _pushLine($line)
@@ -201,6 +202,12 @@ extends PHPUnit_Framework_TestCase
         $this->_translator = $this->getMock('ErebotTestI18n', array(), array('', ''), '', FALSE, FALSE);
         $this->_eventHandler = $this->getMock('Erebot_Interface_EventHandler', array(), array(), '', FALSE, FALSE);
         $this->_rawHandler = $this->getMock('Erebot_Interface_RawHandler', array(), array(), '', FALSE, FALSE);
+
+        $styling = $this->getMockForAbstractClass(
+            'StylingStub',
+            array(), '', FALSE, FALSE
+        );
+        $this->_factory['!Styling'] = get_class($styling);
     }
 
     protected function _setConnectionExpectations()
