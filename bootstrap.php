@@ -100,6 +100,12 @@ extends     Erebot_Interface_ModuleContainer,
             Erebot_Interface_EventFactory,
             Erebot_Interface_BidirectionalConnection
 {
+    /// @FIXME: maybe this belongs to the main API, not the tests
+    public function getRawProfileLoader();
+
+    public function setRawProfileLoader(
+        Erebot_Interface_RawProfileLoader $loader
+    );
 }
 
 abstract class  StylingStub
