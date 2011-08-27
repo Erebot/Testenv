@@ -37,15 +37,17 @@ if ('@php_dir@' == '@'.'php_dir'.'@') {
 
     // Add vendor sources too.
     $base .= "vendor";
-    foreach (scandir($base) as $path) {
-        if (trim($path, '.') == '')
-            continue;
-        $path = $base . DIRECTORY_SEPARATOR .
-                $path . DIRECTORY_SEPARATOR;
-        if (is_dir($path . 'src'))
-            Erebot_Autoload::initialize($path . 'src');
-        if (is_dir($path . 'lib'))  // for sfService.
-            Erebot_Autoload::initialize($path . 'lib');
+    if (is_dir($base)) {
+        foreach (scandir($base) as $path) {
+            if (trim($path, '.') == '')
+                continue;
+            $path = $base . DIRECTORY_SEPARATOR .
+                    $path . DIRECTORY_SEPARATOR;
+            if (is_dir($path . 'src'))
+                Erebot_Autoload::initialize($path . 'src');
+            if (is_dir($path . 'lib'))  // for sfService.
+                Erebot_Autoload::initialize($path . 'lib');
+        }
     }
     // Register include_path with the Autoloader.
     foreach (explode(PATH_SEPARATOR, get_include_path()) as $path)
