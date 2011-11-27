@@ -113,31 +113,27 @@ extends     Erebot_Interface_ModuleContainer,
 abstract class  StylingStub
 implements      Erebot_Interface_Styling
 {
-    protected $_msg;
-    protected $_vars;
-
-    public function __construct($msg, $translator)
+    public function __construct(Erebot_Interface_I18n $translator)
     {
-        $this->_msg = $msg;
     }
 
-    public function assign($var, $value)
+    public function render($msg, array $vars = array())
     {
-        if (!is_array($value)) {
-            $this->_vars['name="'.$var.'"'] = 'name="'.$value.'"';
-            $this->_vars["name='".$var."'"] = "name='".$value."'";
+        $subst = array();
+        foreach ($vars as $name => $value) {
+            if (!is_array($value)) {
+                $subst['name="'.$var.'"'] = 'name="'.$value.'"';
+                $subst["name='".$var."'"] = "name='".$value."'";
+            }
+            else {
+                $subst['from="'.$var.'"'] =
+                    'from="'.var_export($value, TRUE).'"';
+                $subst["from='".$var."'"] =
+                    "from='".var_export($value, TRUE)."'";
+            }
         }
-        else {
-            $this->_vars['from="'.$var.'"'] =
-                'from="'.var_export($value, TRUE).'"';
-            $this->_vars["from='".$var."'"] =
-                "from='".var_export($value, TRUE)."'";
-        }
-    }
 
-    public function render()
-    {
-        return strtr($this->_msg, $this->_vars);
+        return strtr($msg, $subst);
     }
 }
 
