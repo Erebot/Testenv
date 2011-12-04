@@ -16,21 +16,21 @@
     along with Erebot.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once(
-    dirname(__FILE__).
-    DIRECTORY_SEPARATOR.'Stub'.
-    DIRECTORY_SEPARATOR.'Core.php'
+$stubs = array(
+    'Callable',
+    'Core',
+    'I18n',
+    'Styling',
 );
-require_once(
-    dirname(__FILE__).
-    DIRECTORY_SEPARATOR.'Stub'.
-    DIRECTORY_SEPARATOR.'I18n.php'
-);
-require_once(
-    dirname(__FILE__).
-    DIRECTORY_SEPARATOR.'Stub'.
-    DIRECTORY_SEPARATOR.'Styling.php'
-);
+
+foreach ($stubs as $stub) {
+    require_once(
+        dirname(__FILE__).
+        DIRECTORY_SEPARATOR.'Stub'.
+        DIRECTORY_SEPARATOR.$stub.'.php'
+    );
+}
+
 require_once(
     dirname(__FILE__).
     DIRECTORY_SEPARATOR.'Interface'.
