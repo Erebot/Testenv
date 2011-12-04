@@ -19,6 +19,7 @@
 $stubs = array(
     'Callable',
     'Core',
+    'Identity',
     'I18n',
     'Styling',
 );
@@ -113,6 +114,7 @@ extends         PHPUnit_Framework_TestCase
 
         $deps = array(
             '!Callable'         => 'Erebot_Testenv_Stub_Callable',
+            '!Identity'         => 'Erebot_Testenv_Stub_Identity',
             '!Styling'          => 'Erebot_Testenv_Stub_Styling',
             '!Styling_Currency' => 'Erebot_Testenv_Stub_Styling_Currency',
             '!Styling_DateTime' => 'Erebot_Testenv_Stub_Styling_DateTime',
