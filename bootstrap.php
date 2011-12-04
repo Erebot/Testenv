@@ -117,18 +117,23 @@ implements      Erebot_Interface_Styling
     {
     }
 
+    public function _($msg, array $vars = array())
+    {
+        return $this->render($msg, $vars);
+    }
+
     public function render($msg, array $vars = array())
     {
         $subst = array();
         foreach ($vars as $name => $value) {
             if (!is_array($value)) {
-                $subst['name="'.$var.'"'] = 'name="'.$value.'"';
-                $subst["name='".$var."'"] = "name='".$value."'";
+                $subst['name="'.$name.'"'] = 'name="'.$value.'"';
+                $subst["name='".$name."'"] = "name='".$value."'";
             }
             else {
-                $subst['from="'.$var.'"'] =
+                $subst['from="'.$name.'"'] =
                     'from="'.var_export($value, TRUE).'"';
-                $subst["from='".$var."'"] =
+                $subst["from='".$name."'"] =
                     "from='".var_export($value, TRUE)."'";
             }
         }
