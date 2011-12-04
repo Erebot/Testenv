@@ -112,6 +112,7 @@ extends         PHPUnit_Framework_TestCase
         $this->_rawHandler = $this->getMock('Erebot_Interface_RawHandler', array(), array(), '', FALSE, FALSE);
 
         $deps = array(
+            '!Callable'         => 'Erebot_Testenv_Stub_Callable',
             '!Styling'          => 'Erebot_Testenv_Stub_Styling',
             '!Styling_Currency' => 'Erebot_Testenv_Stub_Styling_Currency',
             '!Styling_DateTime' => 'Erebot_Testenv_Stub_Styling_DateTime',
