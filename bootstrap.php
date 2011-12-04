@@ -59,269 +59,6 @@ else {
     Erebot_Autoload::initialize('@php_dir@');
 }
 
-/*
- * This is needed because PHPUnit can't mock static methods
- * when an interface is used as the source, and we do not
- * want to include the real class here because it might
- * conflict with our test classes.
- */
-abstract class ErebotTestCore
-implements Erebot_Interface_Core
-{
-    public static function getVersion()
-    {
-        // The version is usually left unused,
-        // so we just return NULL here.
-        return NULL;
-    }
-}
-
-abstract class ErebotTestI18n
-implements Erebot_Interface_I18n
-{
-    public static function nameToCategory($name)
-    {
-        return NULL;
-    }
-
-    public static function categoryToName($category)
-    {
-        return NULL;
-    }
-}
-
-/**
- * One interface to rule them all,
- * one interface to pass the tests,
- * one interface to mock them all
- * and in the unit tests bind them. */
-interface   ErebotTestConnectionInterface
-extends     Erebot_Interface_ModuleContainer,
-            Erebot_Interface_IrcComparator,
-            Erebot_Interface_EventDispatcher,
-            Erebot_Interface_EventFactory,
-            Erebot_Interface_BidirectionalConnection
-{
-    /// @FIXME: maybe this belongs to the main API, not the tests
-    public function getRawProfileLoader();
-
-    public function setRawProfileLoader(
-        Erebot_Interface_RawProfileLoader $loader
-    );
-}
-
-abstract class  StylingStub
-implements      Erebot_Interface_Styling
-{
-    public function __construct(Erebot_Interface_I18n $translator)
-    {
-    }
-
-    public function _($msg, array $vars = array())
-    {
-        return $this->render($msg, $vars);
-    }
-
-    public function render($msg, array $vars = array())
-    {
-        $subst = array();
-        foreach ($vars as $name => $value) {
-            if (!is_array($value)) {
-                $subst['name="'.$name.'"'] = 'name="'.$value.'"';
-                $subst["name='".$name."'"] = "name='".$value."'";
-            }
-            else {
-                $subst['from="'.$name.'"'] =
-                    'from="'.var_export($value, TRUE).'"';
-                $subst["from='".$name."'"] =
-                    "from='".var_export($value, TRUE)."'";
-            }
-        }
-
-        return strtr($msg, $subst);
-    }
-}
-
-abstract class ErebotModuleTestCase
-extends PHPUnit_Framework_TestCase
-{
-    protected $_outputBuffer    = array();
-    protected $_mainConfig      = NULL;
-    protected $_networkConfig   = NULL;
-    protected $_serverConfig    = NULL;
-    protected $_bot             = NULL;
-    protected $_connection      = NULL;
-    protected $_translator      = NULL;
-    protected $_factory         = array();
-
-    // Used to simulate a line being sent to the connection.
-    public function _pushLine($line)
-    {
-        $this->_outputBuffer[] = $line;
-    }
-
-    // Needed because PHPUnit passes an additional NULL
-    // and str*cmp will choke on it.
-    public function _strcmp($a, $b)
-    {
-        return strcmp($a, $b);
-    }
-
-    // Needed because PHPUnit passes an additional NULL
-    // and str*cmp will choke on it.
-    public function _strncmp($a, $b, $n)
-    {
-        return strncmp($a, $b, $n);
-    }
-
-    // Needed because PHPUnit passes an additional NULL
-    // and str*cmp will choke on it.
-    public function _strcasecmp($a, $b)
-    {
-        return strcasecmp($a, $b);
-    }
-
-    // Needed because PHPUnit passes an additional NULL
-    // and str*cmp will choke on it.
-    public function _strncasecmp($a, $b, $n)
-    {
-        return strncasecmp($a, $b, $n);
-    }
-
-    public function setUp()
-    {
-        $this->_outputBuffer = array();
-
-        $this->_createMocks();
-        $this->_setConnectionExpectations();
-        $this->_setNetworkConfigExpectations();
-        $this->_setServerConfigExpectations();
-        $this->_setMainConfigExpectations();
-        $this->_setTranslatorExpectations();
-    }
-
-    protected function _createMocks()
-    {
-        $sxml = new SimpleXMLElement('<foo/>');
-
-        // Create the basic pieces needed to create the module.
-        $this->_mainConfig = $this->getMock('Erebot_Interface_Config_Main', array(), array(), '', FALSE, FALSE);
-        $this->_networkConfig = $this->getMock('Erebot_Interface_Config_Network', array(), array($this->_mainConfig, $sxml), '', FALSE, FALSE);
-        $this->_serverConfig = $this->getMock('Erebot_Interface_Config_Server', array(), array($this->_networkConfig, $sxml), '', FALSE, FALSE);
-        $this->_bot = $this->getMock('ErebotTestCore', array(), array($this->_mainConfig), '', FALSE, FALSE);
-        $this->_connection = $this->getMock('ErebotTestConnectionInterface', array(), array($this->_bot, $this->_serverConfig), '', FALSE, FALSE);
-        $this->_translator = $this->getMock('ErebotTestI18n', array(), array('', ''), '', FALSE, FALSE);
-        $this->_eventHandler = $this->getMock('Erebot_Interface_EventHandler', array(), array(), '', FALSE, FALSE);
-        $this->_rawHandler = $this->getMock('Erebot_Interface_RawHandler', array(), array(), '', FALSE, FALSE);
-
-        $styling = $this->getMockForAbstractClass(
-            'StylingStub',
-            array(), '', FALSE, FALSE
-        );
-        $this->_factory['!Styling'] = get_class($styling);
-    }
-
-    protected function _setConnectionExpectations()
-    {
-        $this->_connection
-            ->expects($this->any())
-            ->method('getBot')
-            ->will($this->returnValue($this->_bot));
-
-        $this->_connection
-            ->expects($this->any())
-            ->method('pushLine')
-            ->will($this->returnCallback(array($this, '_pushLine')));
-
-        $this->_connection
-            ->expects($this->any())
-            ->method('getConfig')
-            ->will($this->returnValue($this->_serverConfig));
-
-        $this->_connection
-            ->expects($this->any())
-            ->method('irccmp')
-            ->will($this->returnCallback(array($this, '_strcmp')));
-
-        $this->_connection
-            ->expects($this->any())
-            ->method('ircncmp')
-            ->will($this->returnCallback(array($this, '_strncmp')));
-
-        $this->_connection
-            ->expects($this->any())
-            ->method('irccasecmp')
-            ->will($this->returnCallback(array($this, '_strcasecmp')));
-
-        $this->_connection
-            ->expects($this->any())
-            ->method('ircncasecmp')
-            ->will($this->returnCallback(array($this, '_strncasecmp')));
-
-        $this->_connection
-            ->expects($this->any())
-            ->method('normalizeNick')
-            ->will($this->returnArgument(0));
-    }
-
-    protected function _setNetworkConfigExpectations()
-    {
-        $this->_networkConfig
-            ->expects($this->any())
-            ->method('getMainCfg')
-            ->will($this->returnValue($this->_mainConfig));
-
-        $this->_networkConfig
-            ->expects($this->any())
-            ->method('getTranslator')
-            ->will($this->returnValue($this->_translator));
-    }
-
-    protected function _setServerConfigExpectations()
-    {
-        $this->_serverConfig
-            ->expects($this->any())
-            ->method('getMainCfg')
-            ->will($this->returnValue($this->_mainConfig));
-
-        $this->_serverConfig
-            ->expects($this->any())
-            ->method('getTranslator')
-            ->will($this->returnValue($this->_translator));
-
-        $this->_serverConfig
-            ->expects($this->any())
-            ->method('getNetworkConfig')
-            ->will($this->returnValue($this->_networkConfig));
-    }
-
-    protected function _setMainConfigExpectations()
-    {
-        $this->_mainConfig
-            ->expects($this->any())
-            ->method('getMainCfg')
-            ->will($this->returnValue($this->_mainConfig));
-
-        $this->_mainConfig
-            ->expects($this->any())
-            ->method('getTranslator')
-            ->will($this->returnValue($this->_translator));
-
-        $this->_mainConfig
-            ->expects($this->any())
-            ->method('getCommandsPrefix')
-            ->will($this->returnValue('!'));
-    }
-
-    protected function _setTranslatorExpectations()
-    {
-        $this->_translator
-            ->expects($this->any())
-            ->method('gettext')
-            ->will($this->returnArgument(0));
-    }
-}
-
 // Configure Plop if possible.
 if (class_exists('Plop', TRUE)) {
     $logging =& Plop::getInstance();
@@ -329,28 +66,29 @@ if (class_exists('Plop', TRUE)) {
     unset($logging);
 }
 
-// Preload some of the classes.
-foreach (
-    array(
-        'Erebot_NotFoundException',
-        'Erebot_NotImplementedException',
-        'Erebot_ErrorReportingException',
-        'Erebot_ConnectionFailureException',
-        'Erebot_IllegalActionException',
-        'Erebot_InvalidValueException',
-        'Erebot_Interface_I18n',
-        'Erebot_Interface_Timer',
-        'Erebot_Interface_EventHandler',
-        'Erebot_Interface_RawHandler',
-        'Erebot_Interface_Config_Main',
-        'Erebot_Interface_Core',
-        'Erebot_Interface_Connection',
-        'Erebot_Interface_Config_Server',
-        'Erebot_Interface_Config_Network',
-        'Erebot_Module_Base',
-    ) as $preload)
-    if (!class_exists($preload, TRUE) &&
-        !interface_exists($preload, TRUE))
-        throw new Exception('Could not preload "'.$preload.'"');
-unset($preload);
+#// Preload some of the classes.
+#foreach (
+#    array(
+#        'Erebot_NotFoundException',
+#        'Erebot_NotImplementedException',
+#        'Erebot_ErrorReportingException',
+#        'Erebot_ConnectionFailureException',
+#        'Erebot_IllegalActionException',
+#        'Erebot_InvalidValueException',
+#        'Erebot_Interface_I18n',
+#        'Erebot_Interface_Timer',
+#        'Erebot_Interface_EventHandler',
+#        'Erebot_Interface_RawHandler',
+#        'Erebot_Interface_Config_Main',
+#        'Erebot_Interface_Core',
+#        'Erebot_Interface_Connection',
+#        'Erebot_Interface_Config_Server',
+#        'Erebot_Interface_Config_Network',
+#        'Erebot_Module_Base',
+#    ) as $preload)
+#    if (!class_exists($preload, TRUE) &&
+#        !interface_exists($preload, TRUE))
+#        throw new Exception('Could not preload "'.$preload.'"');
+#unset($preload);
 
+require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'Module_TestCase.php');
