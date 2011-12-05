@@ -66,29 +66,4 @@ if (class_exists('Plop', TRUE)) {
     unset($logging);
 }
 
-#// Preload some of the classes.
-#foreach (
-#    array(
-#        'Erebot_NotFoundException',
-#        'Erebot_NotImplementedException',
-#        'Erebot_ErrorReportingException',
-#        'Erebot_ConnectionFailureException',
-#        'Erebot_IllegalActionException',
-#        'Erebot_InvalidValueException',
-#        'Erebot_Interface_I18n',
-#        'Erebot_Interface_Timer',
-#        'Erebot_Interface_EventHandler',
-#        'Erebot_Interface_RawHandler',
-#        'Erebot_Interface_Config_Main',
-#        'Erebot_Interface_Core',
-#        'Erebot_Interface_Connection',
-#        'Erebot_Interface_Config_Server',
-#        'Erebot_Interface_Config_Network',
-#        'Erebot_Module_Base',
-#    ) as $preload)
-#    if (!class_exists($preload, TRUE) &&
-#        !interface_exists($preload, TRUE))
-#        throw new Exception('Could not preload "'.$preload.'"');
-#unset($preload);
-
 require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'Module_TestCase.php');

@@ -29,34 +29,45 @@ abstract class  Erebot_Testenv_Stub_Styling_Variable
     {
         return var_export($this->_args, TRUE);
     }
+
+    public function getValue()
+    {
+        return $this->_args[0];
+    }
 }
 
 abstract class  Erebot_Testenv_Stub_Styling_String
+extends         Erebot_Testenv_Stub_Styling_Variable
 implements      Erebot_Interface_Styling_String
 {
 }
 
 abstract class  Erebot_Testenv_Stub_Styling_Integer
+extends         Erebot_Testenv_Stub_Styling_Variable
 implements      Erebot_Interface_Styling_Integer
 {
 }
 
 abstract class  Erebot_Testenv_Stub_Styling_Float
+extends         Erebot_Testenv_Stub_Styling_Variable
 implements      Erebot_Interface_Styling_Float
 {
 }
 
 abstract class  Erebot_Testenv_Stub_Styling_DateTime
+extends         Erebot_Testenv_Stub_Styling_Variable
 implements      Erebot_Interface_Styling_DateTime
 {
 }
 
 abstract class  Erebot_Testenv_Stub_Styling_Duration
+extends         Erebot_Testenv_Stub_Styling_Variable
 implements      Erebot_Interface_Styling_Duration
 {
 }
 
 abstract class  Erebot_Testenv_Stub_Styling_Currency
+extends         Erebot_Testenv_Stub_Styling_Variable
 implements      Erebot_Interface_Styling_Currency
 {
 }

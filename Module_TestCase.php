@@ -118,6 +118,20 @@ extends         PHPUnit_Framework_TestCase
             '!Styling'          => 'Erebot_Testenv_Stub_Styling',
             '!Styling_Currency' => 'Erebot_Testenv_Stub_Styling_Currency',
             '!Styling_DateTime' => 'Erebot_Testenv_Stub_Styling_DateTime',
+        );
+
+        foreach ($deps as $dep => $acls) {
+            $mock = $this->getMockForAbstractClass(
+                $acls,
+                array(),
+                '',
+                FALSE,
+                FALSE
+            );
+            $this->_factory[$dep] = get_class($mock);
+        }
+
+        $deps = array(
             '!Styling_Duration' => 'Erebot_Testenv_Stub_Styling_Duration',
             '!Styling_Float'    => 'Erebot_Testenv_Stub_Styling_Float',
             '!Styling_Integer'  => 'Erebot_Testenv_Stub_Styling_Integer',
@@ -129,7 +143,7 @@ extends         PHPUnit_Framework_TestCase
                 $acls,
                 array(),
                 '',
-                FALSE,
+                TRUE,
                 FALSE
             );
             $this->_factory[$dep] = get_class($mock);
