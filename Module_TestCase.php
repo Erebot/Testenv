@@ -115,7 +115,6 @@ extends         PHPUnit_Framework_TestCase
         $deps = array(
             '!Callable'         => 'Erebot_Testenv_Stub_Callable',
             '!Identity'         => 'Erebot_Testenv_Stub_Identity',
-            '!Styling'          => 'Erebot_Testenv_Stub_Styling',
             '!Styling_Currency' => 'Erebot_Testenv_Stub_Styling_Currency',
             '!Styling_DateTime' => 'Erebot_Testenv_Stub_Styling_DateTime',
         );
@@ -130,6 +129,16 @@ extends         PHPUnit_Framework_TestCase
             );
             $this->_factory[$dep] = get_class($mock);
         }
+
+        $mock = $this->getMock(
+            'Erebot_Testenv_Stub_Styling',
+            array('__construct'),
+            array(),
+            '',
+            FALSE,
+            FALSE
+        );
+        $this->_factory['!Styling'] = get_class($mock);
 
         $deps = array(
             '!Styling_Duration' => 'Erebot_Testenv_Stub_Styling_Duration',
