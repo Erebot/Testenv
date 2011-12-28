@@ -45,7 +45,7 @@ implements      Erebot_Interface_Identity
         return $this->_ident;
     }
 
-    public function getHost()
+    public function getHost($c10n)
     {
         return $this->_host;
     }
