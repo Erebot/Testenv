@@ -16,6 +16,8 @@
     along with Erebot.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Utils.php');
+
 abstract class  Erebot_Testenv_TestCase
 extends         PHPUnit_Framework_TestCase
 {
