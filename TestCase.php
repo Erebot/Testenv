@@ -54,7 +54,8 @@ extends         PHPUnit_Framework_TestCase
     {
         try {
             $expectedLogs = Erebot_Testenv_Utils::getExpectedLogs(
-              get_class($this), $this->name
+                get_class($this),
+                $this->getName()
             );
 
             if ($expectedLogs !== NULL) {
