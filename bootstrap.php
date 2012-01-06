@@ -20,6 +20,9 @@
 // badly-configured PHP installations.
 date_default_timezone_set('UTC');
 
+if (!defined('TESTENV_DIR'))
+    define('TESTENV_DIR', dirname(__FILE__));
+
 if ('@php_dir@' == '@'.'php_dir'.'@') {
     $base = dirname(dirname(TESTENV_DIR . DIRECTORY_SEPARATOR)) .
             DIRECTORY_SEPARATOR;

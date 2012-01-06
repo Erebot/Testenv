@@ -32,6 +32,7 @@ foreach ($stubs as $stub) {
     );
 }
 
+require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'TestCase.php');
 require_once(
     dirname(__FILE__).
     DIRECTORY_SEPARATOR.'Interface'.
@@ -39,7 +40,7 @@ require_once(
 );
 
 abstract class  Erebot_Testenv_Module_TestCase
-extends         PHPUnit_Framework_TestCase
+extends         Erebot_Testenv_TestCase
 {
     protected $_outputBuffer    = array();
     protected $_mainConfig      = NULL;
