@@ -40,6 +40,11 @@ extends         PHPUnit_Framework_TestCase
 
     public function setExpectedLogs($logLines)
     {
+        if (is_string($logLines)) {
+            $logLines = trim($logLines);
+            $logLines = preg_split('/\\r?\\n/', $logLines);
+        }
+
         if (!is_array($logLines)) {
             throw new Exception();
         }
@@ -73,8 +78,11 @@ extends         PHPUnit_Framework_TestCase
 
         if ($this->logStream !== NULL) {
             $this->addToAssertionCount(1);
+            fseek($this->logStream, 0);
             $actualLogs = stream_get_contents($this->logStream);
+            fclose($this->logStream);
             $actualLogs = array_map('rtrim', explode("\n", $actualLogs));
+            $actualLogs = array_values(array_filter($actualLogs, 'strlen'));
 
             if (count($this->expectedLogs)) {
                 $this->assertEquals($this->expectedLogs, $actualLogs);
@@ -82,8 +90,8 @@ extends         PHPUnit_Framework_TestCase
 
             else if (count($actualLogs)) {
                 $this->fail(
-                    "No logs expected, but we received:\n    " .
-                    implode("\n    ", $actualLogs)
+                    "No logs expected, but we received:\n" .
+                    var_export($actualLogs, TRUE)
                 );
             }
         }
@@ -99,13 +107,12 @@ extends         PHPUnit_Framework_TestCase
         if (class_exists('Plop', TRUE)) {
             $logging    = Plop::getInstance();
             $rootLogger = $logging->getLogger();
-            foreach ($rootLogger->handlers as $handler) {
-                $rootLogger->removeHandler($handler);
-            }
 
-            $this->logStream = fopen('php://temp', 'a');
+            $rootLogger->handlers   = array();
+            $this->logStream        = fopen('php://temp', 'a+');
             $logging->basicConfig(array('stream' => $this->logStream));
         }
+
         return parent::run($result);
     }
 }

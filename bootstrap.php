@@ -62,11 +62,4 @@ else {
     Erebot_Autoload::initialize('@php_dir@');
 }
 
-// Configure Plop if possible.
-if (class_exists('Plop', TRUE)) {
-    $logging =& Plop::getInstance();
-    $logging->basicConfig();
-    unset($logging);
-}
-
 require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'Module_TestCase.php');
