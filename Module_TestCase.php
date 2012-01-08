@@ -39,6 +39,14 @@ require_once(
     DIRECTORY_SEPARATOR.'Connection.php'
 );
 
+// Preload some of the interfaces.
+// This is required somehow to make PHPUnit & phing happy.
+interface_exists('Erebot_Interface_Config_Network');
+interface_exists('Erebot_Interface_Config_Server');
+interface_exists('Erebot_Interface_EventHandler');
+interface_exists('Erebot_Interface_Config_Main');
+interface_exists('Erebot_Interface_RawHandler');
+
 abstract class  Erebot_Testenv_Module_TestCase
 extends         Erebot_Testenv_TestCase
 {
