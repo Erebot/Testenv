@@ -46,6 +46,7 @@ interface_exists('Erebot_Interface_Config_Server');
 interface_exists('Erebot_Interface_EventHandler');
 interface_exists('Erebot_Interface_Config_Main');
 interface_exists('Erebot_Interface_RawHandler');
+interface_exists('Erebot_Interface_TextWrapper');
 
 abstract class  Erebot_Testenv_Module_TestCase
 extends         Erebot_Testenv_TestCase

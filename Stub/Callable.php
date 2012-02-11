@@ -31,5 +31,10 @@ implements      Erebot_Interface_Callable
         $args = func_get_args();
         return call_user_func_array($this->_callable, $args);
     }
+
+    public function getCallable()
+    {
+        return $this->_callable;
+    }
 }
 
