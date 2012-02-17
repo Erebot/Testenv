@@ -23,17 +23,15 @@
  * and in the unit tests bind them. */
 interface   Erebot_Testenv_Interface_Connection
 extends     Erebot_Interface_ModuleContainer,
-            Erebot_Interface_IrcComparator,
             Erebot_Interface_EventDispatcher,
             Erebot_Interface_EventFactory,
             Erebot_Interface_BidirectionalConnection
 {
-    /// @FIXME: this probably belongs to the main API rather than the tests
+    /// @FIXME: this probably belongs to the main API rather than the tests.
     public function getRawProfileLoader();
 
     public function setRawProfileLoader(
         Erebot_Interface_RawProfileLoader $loader
     );
 }
-
 
