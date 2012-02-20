@@ -19,8 +19,9 @@
 $stubs = array(
     'Callable',
     'Core',
-    'Identity',
     'I18n',
+    'Identity',
+    'IrcCollator',
     'Styling',
 );
 
@@ -100,7 +101,6 @@ extends         Erebot_Testenv_TestCase
         $this->_outputBuffer = array();
 
         $this->_createMocks();
-        $this->_setCollatorExpectations();
         $this->_setConnectionExpectations();
         $this->_setNetworkConfigExpectations();
         $this->_setServerConfigExpectations();
@@ -122,7 +122,14 @@ extends         Erebot_Testenv_TestCase
         $this->_translator = $this->getMock('Erebot_Testenv_Stub_I18n', array(), array('', ''), '', FALSE, FALSE);
         $this->_eventHandler = $this->getMock('Erebot_Interface_EventHandler', array(), array(), '', FALSE, FALSE);
         $this->_rawHandler = $this->getMock('Erebot_Interface_RawHandler', array(), array(), '', FALSE, FALSE);
-        $this->_collator = $this->getMock('Erebot_Interface_Collator', array(), array(), '', FALSE, FALSE);
+
+        $this->_collator = $this->getMockForAbstractClass(
+            'Erebot_Testenv_Stub_IrcCollator',
+            array(),
+            '',
+            FALSE,
+            FALSE
+        );
 
         $deps = array(
             '!Callable'         => 'Erebot_Testenv_Stub_Callable',
@@ -177,24 +184,6 @@ extends         Erebot_Testenv_TestCase
             return;
         foreach ($this->_factory as $iface => $cls)
             $this->_module->setFactory($iface, $cls);
-    }
-
-    protected function _setCollatorExpectations()
-    {
-        $this->_collator
-            ->expects($this->any())
-            ->method('compare')
-            ->will($this->returnCallback('strcasecmp'));
-
-        $this->_collator
-            ->expects($this->any())
-            ->method('limitedCompare')
-            ->will($this->returnCallback('strncasecmp'));
-
-        $this->_collator
-            ->expects($this->any())
-            ->method('normalizeNick')
-            ->will($this->returnCallback('strtolower'));
     }
 
     protected function _setConnectionExpectations()

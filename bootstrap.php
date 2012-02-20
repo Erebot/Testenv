@@ -20,8 +20,12 @@
 // badly-configured PHP installations.
 date_default_timezone_set('UTC');
 
-if (!defined('TESTENV_DIR'))
-    define('TESTENV_DIR', dirname(__FILE__));
+if (!defined('TESTENV_DIR')) {
+    if (getenv('TESTENV_DIR'))
+        define('TESTENV_DIR', getenv('TESTENV_DIR'));
+    else
+        define('TESTENV_DIR', dirname(__FILE__));
+}
 
 if ('@php_dir@' == '@'.'php_dir'.'@') {
     $base = dirname(dirname(TESTENV_DIR . DIRECTORY_SEPARATOR)) .
@@ -63,3 +67,4 @@ else {
 }
 
 require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'Module_TestCase.php');
+
