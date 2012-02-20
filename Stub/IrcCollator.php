@@ -19,17 +19,17 @@
 abstract class  Erebot_Testenv_Stub_IrcCollator
 implements      Erebot_Interface_IrcCollator
 {
-    static public function compare($a, $b)
+    public function compare($a, $b)
     {
         return strcasecmp($a, $b);
     }
 
-    static public function limitedCompare($a, $b, $len)
+    public function limitedCompare($a, $b, $len)
     {
         return strncasecmp($a, $b, $len);
     }
 
-    static public function normalizeNick($nick)
+    public function normalizeNick($nick)
     {
         return strtoupper($nick);
     }
