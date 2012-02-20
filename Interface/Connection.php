@@ -33,5 +33,7 @@ extends     Erebot_Interface_ModuleContainer,
     public function setRawProfileLoader(
         Erebot_Interface_RawProfileLoader $loader
     );
+
+    public function isChannel($chan);
 }
 

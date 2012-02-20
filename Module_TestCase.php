@@ -186,6 +186,11 @@ extends         Erebot_Testenv_TestCase
             $this->_module->setFactory($iface, $cls);
     }
 
+    public function _isChannel($chan)
+    {
+        return strncmp($chan, '#', 1);
+    }
+
     protected function _setConnectionExpectations()
     {
         $this->_connection
@@ -207,6 +212,11 @@ extends         Erebot_Testenv_TestCase
             ->expects($this->any())
             ->method('getCollator')
             ->will($this->returnValue($this->_collator));
+
+        $this->_connection
+            ->expects($this->any())
+            ->method('isChannel')
+            ->will($this->returnCallback(array($this, '_isChannel')));
     }
 
     protected function _setNetworkConfigExpectations()
