@@ -100,6 +100,7 @@ extends         Erebot_Testenv_TestCase
         $this->_outputBuffer = array();
 
         $this->_createMocks();
+        $this->_setCollatorExpectations();
         $this->_setConnectionExpectations();
         $this->_setNetworkConfigExpectations();
         $this->_setServerConfigExpectations();
@@ -121,6 +122,7 @@ extends         Erebot_Testenv_TestCase
         $this->_translator = $this->getMock('Erebot_Testenv_Stub_I18n', array(), array('', ''), '', FALSE, FALSE);
         $this->_eventHandler = $this->getMock('Erebot_Interface_EventHandler', array(), array(), '', FALSE, FALSE);
         $this->_rawHandler = $this->getMock('Erebot_Interface_RawHandler', array(), array(), '', FALSE, FALSE);
+        $this->_collator = $this->getMock('Erebot_Interface_Collator', array(), array(), '', FALSE, FALSE);
 
         $deps = array(
             '!Callable'         => 'Erebot_Testenv_Stub_Callable',
@@ -177,6 +179,24 @@ extends         Erebot_Testenv_TestCase
             $this->_module->setFactory($iface, $cls);
     }
 
+    protected function _setCollatorExpectations()
+    {
+        $this->_collator
+            ->expects($this->any())
+            ->method('compare')
+            ->will($this->returnCallback('strcasecmp'));
+
+        $this->_collator
+            ->expects($this->any())
+            ->method('limitedCompare')
+            ->will($this->returnCallback('strncasecmp'));
+
+        $this->_collator
+            ->expects($this->any())
+            ->method('normalizeNick')
+            ->will($this->returnCallback('strtolower'));
+    }
+
     protected function _setConnectionExpectations()
     {
         $this->_connection
@@ -196,28 +216,8 @@ extends         Erebot_Testenv_TestCase
 
         $this->_connection
             ->expects($this->any())
-            ->method('irccmp')
-            ->will($this->returnCallback(array($this, '_strcmp')));
-
-        $this->_connection
-            ->expects($this->any())
-            ->method('ircncmp')
-            ->will($this->returnCallback(array($this, '_strncmp')));
-
-        $this->_connection
-            ->expects($this->any())
-            ->method('irccasecmp')
-            ->will($this->returnCallback(array($this, '_strcasecmp')));
-
-        $this->_connection
-            ->expects($this->any())
-            ->method('ircncasecmp')
-            ->will($this->returnCallback(array($this, '_strncasecmp')));
-
-        $this->_connection
-            ->expects($this->any())
-            ->method('normalizeNick')
-            ->will($this->returnArgument(0));
+            ->method('getCollator')
+            ->will($this->returnValue($this->_collator));
     }
 
     protected function _setNetworkConfigExpectations()
