@@ -25,7 +25,8 @@ interface   Erebot_Testenv_Interface_Connection
 extends     Erebot_Interface_ModuleContainer,
             Erebot_Interface_EventDispatcher,
             Erebot_Interface_EventFactory,
-            Erebot_Interface_BidirectionalConnection
+            Erebot_Interface_BidirectionalConnection,
+            Erebot_Interface_Collated
 {
     /// @FIXME: this probably belongs to the main API rather than the tests.
     public function getRawProfileLoader();
