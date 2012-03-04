@@ -153,7 +153,7 @@ extends         Erebot_Testenv_TestCase
 
     public function _isChannel($chan)
     {
-        return strncmp($chan, '#', 1);
+        return !strncmp($chan, '#', 1);
     }
 
     protected function _setConnectionExpectations()
