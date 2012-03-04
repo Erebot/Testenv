@@ -68,37 +68,10 @@ extends         Erebot_Testenv_TestCase
         $this->_outputBuffer[] = $line;
     }
 
-    // Needed because PHPUnit passes an additional NULL
-    // and str*cmp will choke on it.
-    public function _strcmp($a, $b)
-    {
-        return strcmp($a, $b);
-    }
-
-    // Needed because PHPUnit passes an additional NULL
-    // and str*cmp will choke on it.
-    public function _strncmp($a, $b, $n)
-    {
-        return strncmp($a, $b, $n);
-    }
-
-    // Needed because PHPUnit passes an additional NULL
-    // and str*cmp will choke on it.
-    public function _strcasecmp($a, $b)
-    {
-        return strcasecmp($a, $b);
-    }
-
-    // Needed because PHPUnit passes an additional NULL
-    // and str*cmp will choke on it.
-    public function _strncasecmp($a, $b, $n)
-    {
-        return strncasecmp($a, $b, $n);
-    }
-
     public function setUp()
     {
-        $this->_outputBuffer = array();
+        $this->_outputBuffer    = array();
+        $this->_collator        = new Erebot_Testenv_Stub_IrcCollator();
 
         $this->_createMocks();
         $this->_setConnectionExpectations();
@@ -122,14 +95,6 @@ extends         Erebot_Testenv_TestCase
         $this->_translator = $this->getMock('Erebot_Testenv_Stub_I18n', array(), array('', ''), '', FALSE, FALSE);
         $this->_eventHandler = $this->getMock('Erebot_Interface_EventHandler', array(), array(), '', FALSE, FALSE);
         $this->_rawHandler = $this->getMock('Erebot_Interface_RawHandler', array(), array(), '', FALSE, FALSE);
-
-        $this->_collator = $this->getMockForAbstractClass(
-            'Erebot_Testenv_Stub_IrcCollator',
-            array(),
-            '',
-            FALSE,
-            FALSE
-        );
 
         $deps = array(
             '!Callable'         => 'Erebot_Testenv_Stub_Callable',

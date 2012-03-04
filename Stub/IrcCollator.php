@@ -16,7 +16,7 @@
     along with Erebot.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-abstract class  Erebot_Testenv_Stub_IrcCollator
+class           Erebot_Testenv_Stub_IrcCollator
 implements      Erebot_Interface_IrcCollator
 {
     public function compare($a, $b)
