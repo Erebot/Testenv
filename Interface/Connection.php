@@ -35,5 +35,7 @@ extends     Erebot_Interface_ModuleContainer,
     );
 
     public function isChannel($chan);
+
+    public function getEventsProducer();
 }
 
