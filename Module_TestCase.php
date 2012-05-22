@@ -34,11 +34,6 @@ foreach ($stubs as $stub) {
 }
 
 require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'TestCase.php');
-require_once(
-    dirname(__FILE__).
-    DIRECTORY_SEPARATOR.'Interface'.
-    DIRECTORY_SEPARATOR.'Connection.php'
-);
 
 // Preload some of the interfaces.
 // This is required somehow to make PHPUnit & phing happy.
@@ -91,7 +86,7 @@ extends         Erebot_Testenv_TestCase
         $this->_networkConfig = $this->getMock('Erebot_Interface_Config_Network', array(), array($this->_mainConfig, $sxml), '', FALSE, FALSE);
         $this->_serverConfig = $this->getMock('Erebot_Interface_Config_Server', array(), array($this->_networkConfig, $sxml), '', FALSE, FALSE);
         $this->_bot = $this->getMock('Erebot_Testenv_Stub_Core', array(), array($this->_mainConfig), '', FALSE, FALSE);
-        $this->_connection = $this->getMock('Erebot_Testenv_Interface_Connection', array(), array($this->_bot, $this->_serverConfig), '', FALSE, FALSE);
+        $this->_connection = $this->getMock('Erebot_Interface_IrcConnection', array(), array($this->_bot, $this->_serverConfig), '', FALSE, FALSE);
         $this->_translator = $this->getMock('Erebot_Testenv_Stub_I18n', array(), array('', ''), '', FALSE, FALSE);
         $this->_eventHandler = $this->getMock('Erebot_Interface_EventHandler', array(), array(), '', FALSE, FALSE);
         $this->_rawHandler = $this->getMock('Erebot_Interface_RawHandler', array(), array(), '', FALSE, FALSE);
