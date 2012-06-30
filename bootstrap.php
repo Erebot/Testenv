@@ -30,14 +30,31 @@ if (!defined('TESTENV_DIR')) {
 if ('@php_dir@' == '@'.'php_dir'.'@') {
     $base = dirname(dirname(TESTENV_DIR . DIRECTORY_SEPARATOR)) .
             DIRECTORY_SEPARATOR;
-    require(
-        $base .
-        'vendor' . DIRECTORY_SEPARATOR .
-        'Erebot_API' . DIRECTORY_SEPARATOR .
-        'src' . DIRECTORY_SEPARATOR .
-        'Erebot' . DIRECTORY_SEPARATOR .
-        'Autoload.php'
-    );
+
+    // Prefer local API override.
+    $localAPI = $base . 'scripts' . DIRECTORY_SEPARATOR . 'Erebot_API';
+    if (file_exists($localAPI)) {
+        require(
+            $localAPI . DIRECTORY_SEPARATOR .
+            'src' . DIRECTORY_SEPARATOR .
+            'Erebot' . DIRECTORY_SEPARATOR .
+            'Autoload.php'
+        );
+        Erebot_Autoload::initialize(
+            $localAPI . DIRECTORY_SEPARATOR .
+            'src'
+        );
+    }
+    else {
+        require(
+            $base .
+            'vendor' . DIRECTORY_SEPARATOR .
+            'Erebot_API' . DIRECTORY_SEPARATOR .
+            'src' . DIRECTORY_SEPARATOR .
+            'Erebot' . DIRECTORY_SEPARATOR .
+            'Autoload.php'
+        );
+    }
 
     // Add the component's sources to the Autoloader.
     Erebot_Autoload::initialize($base . "src");
