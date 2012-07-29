@@ -58,7 +58,7 @@ extends         Erebot_Testenv_TestCase
     protected $_module          = NULL;
 
     // Used to simulate a line being sent to the connection.
-    public function _pushLine($line)
+    public function push($line)
     {
         $this->_outputBuffer[] = $line;
     }
@@ -160,8 +160,8 @@ extends         Erebot_Testenv_TestCase
 
         $this->_connection
             ->expects($this->any())
-            ->method('pushLine')
-            ->will($this->returnCallback(array($this, '_pushLine')));
+            ->method('getIO')
+            ->will($this->returnValue($this));
 
         $this->_connection
             ->expects($this->any())
