@@ -41,7 +41,7 @@ interface_exists('Erebot_Interface_Config_Network');
 interface_exists('Erebot_Interface_Config_Server');
 interface_exists('Erebot_Interface_EventHandler');
 interface_exists('Erebot_Interface_Config_Main');
-interface_exists('Erebot_Interface_RawHandler');
+interface_exists('Erebot_Interface_NumericHandler');
 interface_exists('Erebot_Interface_TextWrapper');
 
 abstract class  Erebot_Testenv_Module_TestCase
@@ -89,7 +89,7 @@ extends         Erebot_Testenv_TestCase
         $this->_connection = $this->getMock('Erebot_Interface_IrcConnection', array(), array($this->_bot, $this->_serverConfig), '', FALSE, FALSE);
         $this->_translator = $this->getMock('Erebot_Testenv_Stub_I18n', array(), array('', ''), '', FALSE, FALSE);
         $this->_eventHandler = $this->getMock('Erebot_Interface_EventHandler', array(), array(), '', FALSE, FALSE);
-        $this->_rawHandler = $this->getMock('Erebot_Interface_RawHandler', array(), array(), '', FALSE, FALSE);
+        $this->_numericHandler = $this->getMock('Erebot_Interface_NumericHandler', array(), array(), '', FALSE, FALSE);
 
         $deps = array(
             '!Callable'         => 'Erebot_Testenv_Stub_Callable',
