@@ -106,11 +106,10 @@ extends         PHPUnit_Framework_TestCase
         $this->logStream = NULL;
         if (class_exists('Plop', TRUE)) {
             $logging    = Plop::getInstance();
-            $rootLogger = $logging->getLogger();
+            $handlers   = $logging->getLogger()->getHandlers();
 
-            $rootLogger->handlers   = array();
             $this->logStream        = fopen('php://temp', 'a+');
-            $logging->basicConfig(array('stream' => $this->logStream));
+            $handlers[] = new Plop_Handler_Stream($this->logStream);
         }
 
         return parent::run($result);
