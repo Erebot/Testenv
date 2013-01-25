@@ -21,7 +21,7 @@ require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Utils.php');
 abstract class  Erebot_Testenv_TestCase
 extends         PHPUnit_Framework_TestCase
 {
-    private $expectedLogs = array();
+    private $expectedLogs = NULL;
     private $logStream = NULL;
 
     public function getExpectedLogs()
@@ -35,6 +35,10 @@ extends         PHPUnit_Framework_TestCase
             throw new Exception();
         }
 
+        if ($this->expectedLogs === NULL) {
+            $this->expectedLogs = array();
+        }
+
         $this->expectedLogs[] = $logLine;
     }
 
@@ -43,6 +47,10 @@ extends         PHPUnit_Framework_TestCase
         if (is_string($logLines)) {
             $logLines = trim($logLines);
             $logLines = preg_split('/\\r?\\n/', $logLines);
+        }
+
+        if ($logLines === NULL) {
+            return;
         }
 
         if (!is_array($logLines)) {
@@ -63,9 +71,7 @@ extends         PHPUnit_Framework_TestCase
                 $this->getName()
             );
 
-            if ($expectedLogs !== NULL) {
-                $this->setExpectedLogs($expectedLogs);
-            }
+            $this->setExpectedLogs($expectedLogs);
         }
 
         catch (ReflectionException $e) {
@@ -84,15 +90,17 @@ extends         PHPUnit_Framework_TestCase
             $actualLogs = array_map('rtrim', explode("\n", $actualLogs));
             $actualLogs = array_values(array_filter($actualLogs, 'strlen'));
 
-            if (count($this->expectedLogs)) {
-                $this->assertEquals($this->expectedLogs, $actualLogs);
-            }
+            if ($this->expectedLogs !== NULL) {
+                if (count($this->expectedLogs)) {
+                    $this->assertEquals($this->expectedLogs, $actualLogs);
+                }
 
-            else if (count($actualLogs)) {
-                $this->fail(
-                    "No logs expected, but we received:\n" .
-                    var_export($actualLogs, TRUE)
-                );
+                else if (count($actualLogs)) {
+                    $this->fail(
+                        "No logs expected, but we received:\n" .
+                        var_export($actualLogs, TRUE)
+                    );
+                }
             }
         }
 
@@ -109,7 +117,11 @@ extends         PHPUnit_Framework_TestCase
             $this->logStream    = fopen('php://temp', 'a+');
 
             $handlers   = new Plop_HandlersCollection();
-            $handlers[] = new Plop_Handler_Stream($this->logStream);
+            $handler    = new Plop_Handler_Stream($this->logStream);
+            $handler->setFormatter(
+                new Plop_Formatter('%(levelname)s:%(message)s')
+            );
+            $handlers[] = $handler;
             $logging->getLogger()->setHandlers($handlers);
         }
 

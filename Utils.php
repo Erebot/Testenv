@@ -18,7 +18,7 @@
 
 class Erebot_Testenv_Utils
 {
-    const REGEX_EXPECTED_LOG = '/@expectedLog\s+(?P<line>.+)\\s*$/m';
+    const REGEX_EXPECTED_LOG = '/@expectedLog\\s+(?P<line>.+)\\s*$/m';
 
     public static function getExpectedLogs($className, $methodName)
     {
@@ -26,10 +26,18 @@ class Erebot_Testenv_Utils
         $docComment = $reflector->getDocComment();
         $logLines   = array();
 
+        if (strpos($docComment, '@noExpectedLogs') !== FALSE) {
+            return array();
+        }
+
         if ($count = preg_match_all(self::REGEX_EXPECTED_LOG, $docComment, $matches)) {
             for ($i = 0; $i < $count; $i++) {
                 $logLines[] = $matches['line'][$i];
             }
+        }
+
+        if (!count($logLines)) {
+            return NULL;
         }
 
         return $logLines;
