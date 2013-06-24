@@ -20,68 +20,11 @@
 // badly-configured PHP installations.
 date_default_timezone_set('UTC');
 
-if (!defined('TESTENV_DIR')) {
-    if (getenv('TESTENV_DIR'))
-        define('TESTENV_DIR', getenv('TESTENV_DIR'));
-    else
-        define('TESTENV_DIR', dirname(__FILE__));
-}
+include(
+    dirname(dirname(dirname(__FILE__))) .
+    DIRECTORY_SEPARATOR .
+    "autoload.php"
+);
 
-if ('@php_dir@' == '@'.'php_dir'.'@') {
-    $base = dirname(dirname(TESTENV_DIR . DIRECTORY_SEPARATOR)) .
-            DIRECTORY_SEPARATOR;
-
-    // Prefer local API override.
-    $localAPI = $base . 'scripts' . DIRECTORY_SEPARATOR . 'Erebot_API';
-    if (file_exists($localAPI)) {
-        require(
-            $localAPI . DIRECTORY_SEPARATOR .
-            'src' . DIRECTORY_SEPARATOR .
-            'Erebot' . DIRECTORY_SEPARATOR .
-            'Autoload.php'
-        );
-        Erebot_Autoload::initialize(
-            $localAPI . DIRECTORY_SEPARATOR .
-            'src'
-        );
-    }
-    else {
-        require(
-            $base .
-            'vendor' . DIRECTORY_SEPARATOR .
-            'Erebot_API' . DIRECTORY_SEPARATOR .
-            'src' . DIRECTORY_SEPARATOR .
-            'Erebot' . DIRECTORY_SEPARATOR .
-            'Autoload.php'
-        );
-    }
-
-    // Add the component's sources to the Autoloader.
-    Erebot_Autoload::initialize($base . "src");
-
-    // Add vendor sources too.
-    $base .= "vendor";
-    if (is_dir($base)) {
-        foreach (scandir($base) as $path) {
-            if (trim($path, '.') == '')
-                continue;
-            $path = $base . DIRECTORY_SEPARATOR .
-                    $path . DIRECTORY_SEPARATOR;
-            if (is_dir($path . 'src'))
-                Erebot_Autoload::initialize($path . 'src');
-            if (is_dir($path . 'lib'))  // for sfService.
-                Erebot_Autoload::initialize($path . 'lib');
-        }
-    }
-    // Register include_path with the Autoloader.
-    foreach (explode(PATH_SEPARATOR, get_include_path()) as $path)
-        Erebot_Autoload::initialize($path);
-}
-// Otherwise, we're probably in Pyrus/PEAR.
-else {
-    require('Erebot/Autoload.php');
-    Erebot_Autoload::initialize('@php_dir@');
-}
-
-require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'Module_TestCase.php');
+require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Module_TestCase.php');
 
