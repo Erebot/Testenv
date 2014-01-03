@@ -1,4 +1,6 @@
 {
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "name": "erebot/testenv",
     "description": "Test environment for the Erebot project",
     "keywords": ["Erebot"],
@@ -14,7 +16,6 @@
     "support": {
         "email": "erebot@erebot.net",
         "issues": "https://github.com/Erebot/Erebot_Testenv/issues",
-        "wiki": "http://erebot.github.com/Erebot/",
         "irc": "irc://irc.iiens.net/Erebot",
         "source": "https://github.com/Erebot/Erebot_Testenv"
     },
