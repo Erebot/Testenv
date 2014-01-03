@@ -34,6 +34,7 @@ foreach ($stubs as $stub) {
 }
 
 require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'TestCase.php');
+require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'HelperModule.php');
 
 // Preload some of the interfaces.
 // This is required somehow to make PHPUnit & phing happy.
@@ -56,6 +57,7 @@ extends         Erebot_Testenv_TestCase
     protected $_translator      = NULL;
     protected $_factory         = array();
     protected $_module          = NULL;
+    protected $_modules         = array();
 
     // Used to simulate a line being sent to the connection.
     public function push($line)
@@ -136,6 +138,9 @@ extends         Erebot_Testenv_TestCase
             );
             $this->_factory[$dep] = get_class($mock);
         }
+
+        $this->_modules['Erebot_Module_Helper'] =
+            new Erebot_Testenv_HelperModule();
     }
 
     protected function _injectStubs()
@@ -149,6 +154,13 @@ extends         Erebot_Testenv_TestCase
     public function _isChannel($chan)
     {
         return !strncmp($chan, '#', 1);
+    }
+
+    public function _getModule($name, $chan = NULL, $autoload = TRUE)
+    {
+        if (!isset($this->_modules[$name]))
+            throw new Erebot_NotFoundException('No instance found');
+        return $this->_modules[$name];
     }
 
     protected function _setConnectionExpectations()
@@ -177,6 +189,11 @@ extends         Erebot_Testenv_TestCase
             ->expects($this->any())
             ->method('isChannel')
             ->will($this->returnCallback(array($this, '_isChannel')));
+
+        $this->_connection
+            ->expects($this->any())
+            ->method('getModule')
+            ->will($this->returnCallback(array($this, '_getModule')));
     }
 
     protected function _setNetworkConfigExpectations()
