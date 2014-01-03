@@ -19,7 +19,12 @@
         "source": "https://github.com/Erebot/Erebot_Testenv"
     },
     "require": {
-        "php": ">=5.2.2"
+        "php": ">=5.2.2",
+        "pdepend/pdepend": "*",
+        "squizlabs/php_codesniffer": ">=1.2.2",
+        "phpmd/phpmd": "*",
+        "sebastian/phpcpd": "*",
+        "phpunit/phpunit": "*"
     },
     "extra": {
         "branch-alias": {
