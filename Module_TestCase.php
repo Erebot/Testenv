@@ -22,7 +22,7 @@ $stubs = array(
     'Identity',
     'IrcCollator',
     'Styling',
-    'Styling\\Variable',
+    'Styling' . DIRECTORY_SEPARATOR . 'Variable',
 );
 
 foreach ($stubs as $stub) {
