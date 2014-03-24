@@ -18,7 +18,6 @@
 
 $stubs = array(
     'Callable',
-    'Core',
     'I18n',
     'Identity',
     'IrcCollator',
@@ -87,7 +86,7 @@ extends         Erebot_Testenv_TestCase
         $this->_mainConfig = $this->getMock('\\Erebot\\Interfaces\\Config\\Main', array(), array(), '', FALSE, FALSE);
         $this->_networkConfig = $this->getMock('\\Erebot\\Interfaces\\Config\\Network', array(), array($this->_mainConfig, $sxml), '', FALSE, FALSE);
         $this->_serverConfig = $this->getMock('\\Erebot\\Interfaces\\Config\\Server', array(), array($this->_networkConfig, $sxml), '', FALSE, FALSE);
-        $this->_bot = $this->getMock('Erebot_Testenv_Stub_Core', array(), array($this->_mainConfig), '', FALSE, FALSE);
+        $this->_bot = $this->getMock('\\Erebot\\Interfaces\\Core', array(), array($this->_mainConfig), '', FALSE, FALSE);
         $this->_connection = $this->getMock('\\Erebot\\Interfaces\\IrcConnection', array(), array($this->_bot, $this->_serverConfig), '', FALSE, FALSE);
         $this->_translator = $this->getMock('Erebot_Testenv_Stub_I18n', array(), array('', ''), '', FALSE, FALSE);
         $this->_eventHandler = $this->getMock('\\Erebot\\Interfaces\\EventHandler', array(), array(), '', FALSE, FALSE);
