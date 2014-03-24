@@ -17,7 +17,7 @@
 */
 
 abstract class  Erebot_Testenv_Stub_Callable
-implements      Erebot_Interface_Callable
+implements      \Erebot\CallableInterface
 {
     protected $_callable;
 
@@ -26,7 +26,7 @@ implements      Erebot_Interface_Callable
         $this->_callable = $callable;
     }
 
-    public function invoke()
+    public function __invoke()
     {
         $args = func_get_args();
         return call_user_func_array($this->_callable, $args);

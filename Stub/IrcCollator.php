@@ -17,7 +17,7 @@
 */
 
 class           Erebot_Testenv_Stub_IrcCollator
-implements      Erebot_Interface_IrcCollator
+implements      \Erebot\Interfaces\IrcCollator
 {
     public function compare($a, $b)
     {

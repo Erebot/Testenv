@@ -17,7 +17,7 @@
 */
 
 abstract class  Erebot_Testenv_Stub_I18n
-implements      Erebot_Interface_I18n
+implements      \Erebot\IntlInterface
 {
     public static function nameToCategory($name)
     {

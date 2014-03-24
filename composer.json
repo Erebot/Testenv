@@ -25,7 +25,9 @@
         "squizlabs/php_codesniffer": ">=1.2.2",
         "phpmd/phpmd": "*",
         "sebastian/phpcpd": "*",
-        "phpunit/phpunit": "*"
+        "phpunit/phpunit": "*",
+        "erebot/callable-wrapper": "*",
+        "erebot/styling": "*"
     },
     "extra": {
         "branch-alias": {

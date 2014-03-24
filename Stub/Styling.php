@@ -16,18 +16,18 @@
     along with Erebot.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once(
-    dirname(__FILE__).
-    DIRECTORY_SEPARATOR.'Styling'.
-    DIRECTORY_SEPARATOR.'Variable.php'
-);
+#require_once(
+#    dirname(__FILE__).
+#    DIRECTORY_SEPARATOR.'Styling'.
+#    DIRECTORY_SEPARATOR.'Variable.php'
+#);
 
 abstract class  Erebot_Testenv_Stub_Styling
-implements      Erebot_Interface_Styling
+implements      \Erebot\StylingInterface
 {
     protected $_translator = NULL;
 
-    public function __construct(Erebot_Interface_I18n $translator)
+    public function __construct(\Erebot\IntlInterface $translator)
     {
         $this->_translator = $translator;
     }
@@ -43,7 +43,7 @@ implements      Erebot_Interface_Styling
         foreach ($vars as $name => $value) {
             if (!is_array($value)) {
                 if (is_object($value) &&
-                    ($value instanceof Erebot_Interface_Styling_Variable))
+                    ($value instanceof \Erebot\Styling\VariableInterface))
                     $value = $value->render($this->_translator);
 
                 $subst['name="'.$name.'"'] = 'value="'.$value.'"';

@@ -22,7 +22,7 @@
  * conflict with our test classes.
  */
 abstract class  Erebot_Testenv_Stub_Core
-implements      Erebot_Interface_Core
+implements      \Erebot\Interfaces\Core
 {
     public static function getVersion()
     {

@@ -17,7 +17,7 @@
 */
 
 abstract class  Erebot_Testenv_Stub_Identity
-implements      Erebot_Interface_Identity
+implements      \Erebot\Interfaces\Identity
 {
     protected $_nick;
     protected $_ident;

@@ -38,12 +38,12 @@ require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'HelperModule.php');
 
 // Preload some of the interfaces.
 // This is required somehow to make PHPUnit & phing happy.
-interface_exists('Erebot_Interface_Config_Network');
-interface_exists('Erebot_Interface_Config_Server');
-interface_exists('Erebot_Interface_EventHandler');
-interface_exists('Erebot_Interface_Config_Main');
-interface_exists('Erebot_Interface_NumericHandler');
-interface_exists('Erebot_Interface_TextWrapper');
+interface_exists('\\Erebot\\Interfaces\\Config\\Network');
+interface_exists('\\Erebot\\Interfaces\\Config\\Server');
+interface_exists('\\Erebot\\Interfaces\\EventHandler');
+interface_exists('\\Erebot\\Interfaces\\Config\\Main');
+interface_exists('\\Erebot\\Interfaces\\NumericHandler');
+interface_exists('\\Erebot\\Interfaces\\TextWrapper');
 
 abstract class  Erebot_Testenv_Module_TestCase
 extends         Erebot_Testenv_TestCase
@@ -84,14 +84,14 @@ extends         Erebot_Testenv_TestCase
         $sxml = new SimpleXMLElement('<foo/>');
 
         // Build the basic pieces needed to create the module.
-        $this->_mainConfig = $this->getMock('Erebot_Interface_Config_Main', array(), array(), '', FALSE, FALSE);
-        $this->_networkConfig = $this->getMock('Erebot_Interface_Config_Network', array(), array($this->_mainConfig, $sxml), '', FALSE, FALSE);
-        $this->_serverConfig = $this->getMock('Erebot_Interface_Config_Server', array(), array($this->_networkConfig, $sxml), '', FALSE, FALSE);
+        $this->_mainConfig = $this->getMock('\\Erebot\\Interfaces\\Config\\Main', array(), array(), '', FALSE, FALSE);
+        $this->_networkConfig = $this->getMock('\\Erebot\\Interfaces\\Config\\Network', array(), array($this->_mainConfig, $sxml), '', FALSE, FALSE);
+        $this->_serverConfig = $this->getMock('\\Erebot\\Interfaces\\Config\\Server', array(), array($this->_networkConfig, $sxml), '', FALSE, FALSE);
         $this->_bot = $this->getMock('Erebot_Testenv_Stub_Core', array(), array($this->_mainConfig), '', FALSE, FALSE);
-        $this->_connection = $this->getMock('Erebot_Interface_IrcConnection', array(), array($this->_bot, $this->_serverConfig), '', FALSE, FALSE);
+        $this->_connection = $this->getMock('\\Erebot\\Interfaces\\IrcConnection', array(), array($this->_bot, $this->_serverConfig), '', FALSE, FALSE);
         $this->_translator = $this->getMock('Erebot_Testenv_Stub_I18n', array(), array('', ''), '', FALSE, FALSE);
-        $this->_eventHandler = $this->getMock('Erebot_Interface_EventHandler', array(), array(), '', FALSE, FALSE);
-        $this->_numericHandler = $this->getMock('Erebot_Interface_NumericHandler', array(), array(), '', FALSE, FALSE);
+        $this->_eventHandler = $this->getMock('\\Erebot\\Interfaces\\EventHandler', array(), array(), '', FALSE, FALSE);
+        $this->_numericHandler = $this->getMock('\\Erebot\\Interfaces\\NumericHandler', array(), array(), '', FALSE, FALSE);
 
         $deps = array(
             '!Callable'         => 'Erebot_Testenv_Stub_Callable',
@@ -139,7 +139,7 @@ extends         Erebot_Testenv_TestCase
             $this->_factory[$dep] = get_class($mock);
         }
 
-        $this->_modules['Erebot_Module_Helper'] =
+        $this->_modules['\\Erebot\\Module\\Helper'] =
             new Erebot_Testenv_HelperModule();
     }
 
