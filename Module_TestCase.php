@@ -156,10 +156,11 @@ extends         Erebot_Testenv_TestCase
         return !strncmp($chan, '#', 1);
     }
 
-    public function _getModule($name, $chan = NULL, $autoload = TRUE)
+    public function _getModule($name, $chan = null, $autoload = true)
     {
-        if (!isset($this->_modules[$name]))
-            throw new Erebot_NotFoundException('No instance found');
+        if (!isset($this->_modules[$name])) {
+            throw new \Erebot\NotFoundException("No instance of $name found");
+        }
         return $this->_modules[$name];
     }
 
