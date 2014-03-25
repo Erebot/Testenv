@@ -19,10 +19,9 @@
 class Erebot_Testenv_HelperModule
 {
     public function realRegisterHelpMethod(
-        Erebot_Module_Base          $module,
-        Erebot_Interface_Callable   $callable
-    )
-    {
+        \Erebot\Module\Base $module,
+        \Erebot\CallableInterface $callable
+    ) {
     }
 }
 
