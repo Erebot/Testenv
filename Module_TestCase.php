@@ -122,10 +122,10 @@ extends         Erebot_Testenv_TestCase
         $this->_factory['!Styling'] = get_class($mock);
 
         $deps = array(
-            '!Styling_Duration' => 'Erebot_Testenv_Stub_Styling_Duration',
-            '!Styling_Float'    => 'Erebot_Testenv_Stub_Styling_Float',
-            '!Styling_Integer'  => 'Erebot_Testenv_Stub_Styling_Integer',
-            '!Styling_String'   => 'Erebot_Testenv_Stub_Styling_String',
+            '!Styling\\Duration' => 'Erebot_Testenv_Stub_Styling_Duration',
+            '!Styling\\Float'    => 'Erebot_Testenv_Stub_Styling_Float',
+            '!Styling\\Integer'  => 'Erebot_Testenv_Stub_Styling_Integer',
+            '!Styling\\String'   => 'Erebot_Testenv_Stub_Styling_String',
         );
 
         foreach ($deps as $dep => $acls) {
