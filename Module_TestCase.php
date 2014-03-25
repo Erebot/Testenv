@@ -94,10 +94,10 @@ extends         Erebot_Testenv_TestCase
         $this->_numericHandler = $this->getMock('\\Erebot\\Interfaces\\NumericHandler', array(), array(), '', FALSE, FALSE);
 
         $deps = array(
-            '!Callable'             => 'Erebot_Testenv_Stub_Callable',
-            '!Identity'             => 'Erebot_Testenv_Stub_Identity',
-            '!Styling\\Currency'    => 'Erebot_Testenv_Stub_Styling_Currency',
-            '!Styling\\DateTime'    => 'Erebot_Testenv_Stub_Styling_DateTime',
+            '!Callable'                     => 'Erebot_Testenv_Stub_Callable',
+            '!Identity'                     => 'Erebot_Testenv_Stub_Identity',
+            '!Styling\\Variables\\Currency' => 'Erebot_Testenv_Stub_Styling_Currency',
+            '!Styling\\Variables\\DateTime' => 'Erebot_Testenv_Stub_Styling_DateTime',
         );
 
         foreach ($deps as $dep => $acls) {
