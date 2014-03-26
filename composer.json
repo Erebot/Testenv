@@ -27,7 +27,8 @@
         "sebastian/phpcpd": "*",
         "phpunit/phpunit": "*",
         "erebot/callable-wrapper": "*",
-        "erebot/styling": "*"
+        "erebot/styling": "*",
+        "erebot/timer": "*"
     },
     "extra": {
         "branch-alias": {
