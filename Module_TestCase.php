@@ -17,12 +17,8 @@
 */
 
 $stubs = array(
-    'Callable',
-    'I18n',
     'Identity',
     'IrcCollator',
-    'Styling',
-    'Styling' . DIRECTORY_SEPARATOR . 'Variable',
 );
 
 foreach ($stubs as $stub) {
@@ -89,15 +85,12 @@ extends         Erebot_Testenv_TestCase
         $this->_serverConfig = $this->getMock('\\Erebot\\Interfaces\\Config\\Server', array(), array($this->_networkConfig, $sxml), '', FALSE, FALSE);
         $this->_bot = $this->getMock('\\Erebot\\Interfaces\\Core', array(), array($this->_mainConfig), '', FALSE, FALSE);
         $this->_connection = $this->getMock('\\Erebot\\Interfaces\\IrcConnection', array(), array($this->_bot, $this->_serverConfig), '', FALSE, FALSE);
-        $this->_translator = $this->getMock('Erebot_Testenv_Stub_I18n', array(), array('', ''), '', FALSE, FALSE);
+        $this->_translator = $this->getMock('\\Erebot\\IntlInterface', array(), array('', ''), '', FALSE, FALSE);
         $this->_eventHandler = $this->getMock('\\Erebot\\Interfaces\\EventHandler', array(), array(), '', FALSE, FALSE);
         $this->_numericHandler = $this->getMock('\\Erebot\\Interfaces\\NumericHandler', array(), array(), '', FALSE, FALSE);
 
         $deps = array(
-            '!Callable'                     => 'Erebot_Testenv_Stub_Callable',
-            '!Identity'                     => 'Erebot_Testenv_Stub_Identity',
-            '!Styling\\Variables\\Currency' => 'Erebot_Testenv_Stub_Styling_Currency',
-            '!Styling\\Variables\\DateTime' => 'Erebot_Testenv_Stub_Styling_DateTime',
+            '!Identity' => 'Erebot_Testenv_Stub_Identity',
         );
 
         foreach ($deps as $dep => $acls) {
@@ -111,32 +104,18 @@ extends         Erebot_Testenv_TestCase
             $this->_factory[$dep] = get_class($mock);
         }
 
-        $mock = $this->getMock(
-            'Erebot_Testenv_Stub_Styling',
-            array('__construct'),
-            array(),
-            '',
-            FALSE,
-            FALSE
-        );
-        $this->_factory['!Styling'] = get_class($mock);
-
         $deps = array(
-            '!Styling\\Variables\\Duration' => 'Erebot_Testenv_Stub_Styling_Duration',
-            '!Styling\\Variables\\Float'    => 'Erebot_Testenv_Stub_Styling_Float',
-            '!Styling\\Variables\\Integer'  => 'Erebot_Testenv_Stub_Styling_Integer',
-            '!Styling\\Variables\\String'   => 'Erebot_Testenv_Stub_Styling_String',
+            '!Styling'                      => '\\Erebot\\Styling',
+            '!Styling\\Variables\\Currency' => '\\Erebot\\Styling\\Variables\\Currency',
+            '!Styling\\Variables\\DateTime' => '\\Erebot\\Styling\\Variables\\DateTime',
+            '!Styling\\Variables\\Duration' => '\\Erebot\\Styling\\Variables\\Duration',
+            '!Styling\\Variables\\Float'    => '\\Erebot\\Styling\\Variables\\Float',
+            '!Styling\\Variables\\Integer'  => '\\Erebot\\Styling\\Variables\\Integer',
+            '!Styling\\Variables\\String'   => '\\Erebot\\Styling\\Variables\\String',
         );
 
-        foreach ($deps as $dep => $acls) {
-            $mock = $this->getMockForAbstractClass(
-                $acls,
-                array(),
-                '',
-                TRUE,
-                FALSE
-            );
-            $this->_factory[$dep] = get_class($mock);
+        foreach ($deps as $dep => $cls) {
+            $this->_factory[$dep] = get_class($cls);
         }
 
         $this->_modules['\\Erebot\\Module\\Helper'] =
