@@ -115,7 +115,7 @@ extends         Erebot_Testenv_TestCase
         );
 
         foreach ($deps as $dep => $cls) {
-            $this->_factory[$dep] = get_class($cls);
+            $this->_factory[$dep] = $cls;
         }
 
         $this->_modules['\\Erebot\\Module\\Helper'] =
