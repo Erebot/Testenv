@@ -231,6 +231,11 @@ extends         Erebot_Testenv_TestCase
             ->expects($this->any())
             ->method('gettext')
             ->will($this->returnArgument(0));
+
+        $this->_translator
+            ->expects($this->any())
+            ->method('_')
+            ->will($this->returnArgument(0));
     }
 }
 
