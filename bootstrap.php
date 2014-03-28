@@ -26,6 +26,5 @@ include(
     "autoload.php"
 );
 
-\Erebot\CallableWrapper::initialize();
 require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Module_TestCase.php');
 
