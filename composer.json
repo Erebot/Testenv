@@ -4,7 +4,7 @@
     "name": "erebot/testenv",
     "description": "Test environment for the Erebot project",
     "keywords": ["Erebot"],
-    "homepage": "https://github.com/Erebot/Erebot_Testenv",
+    "homepage": "https://github.com/Erebot/Testenv",
     "license": "GPL-3.0+",
     "authors": [
         {
@@ -15,9 +15,9 @@
     ],
     "support": {
         "email": "erebot@erebot.net",
-        "issues": "https://github.com/Erebot/Erebot_Testenv/issues",
+        "issues": "https://github.com/Erebot/Testenv/issues",
         "irc": "irc://irc.iiens.net/Erebot",
-        "source": "https://github.com/Erebot/Erebot_Testenv"
+        "source": "https://github.com/Erebot/Testenv"
     },
     "require": {
         "php": ">=5.2.2",
