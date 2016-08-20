@@ -13,7 +13,6 @@
         }
     ],
     "support": {
-        "email": "erebot@erebot.net",
         "issues": "https://github.com/Erebot/Testenv/issues",
         "irc": "irc://irc.iiens.net/Erebot",
         "source": "https://github.com/Erebot/Testenv"
