@@ -105,13 +105,13 @@ extends         Erebot_Testenv_TestCase
         }
 
         $deps = array(
-            '!Styling'                      => '\\Erebot\\Styling',
-            '!Styling\\Variables\\Currency' => '\\Erebot\\Styling\\Variables\\Currency',
-            '!Styling\\Variables\\DateTime' => '\\Erebot\\Styling\\Variables\\DateTime',
-            '!Styling\\Variables\\Duration' => '\\Erebot\\Styling\\Variables\\Duration',
-            '!Styling\\Variables\\Float'    => '\\Erebot\\Styling\\Variables\\Float',
-            '!Styling\\Variables\\Integer'  => '\\Erebot\\Styling\\Variables\\Integer',
-            '!Styling\\Variables\\String'   => '\\Erebot\\Styling\\Variables\\String',
+            '!Styling'                               => '\\Erebot\\Styling',
+            '!Styling\\Variables\\CurrencyInterface' => '\\Erebot\\Styling\\Variables\\CurrencyVariable',
+            '!Styling\\Variables\\DateTimeInterface' => '\\Erebot\\Styling\\Variables\\DateTimeVariable',
+            '!Styling\\Variables\\DurationInterface' => '\\Erebot\\Styling\\Variables\\DurationVariable',
+            '!Styling\\Variables\\FloatInterface'    => '\\Erebot\\Styling\\Variables\\FloatVariable',
+            '!Styling\\Variables\\IntegerInterface'  => '\\Erebot\\Styling\\Variables\\IntegerVariable',
+            '!Styling\\Variables\\StringInterface'   => '\\Erebot\\Styling\\Variables\\StringVariable',
         );
 
         foreach ($deps as $dep => $cls) {
