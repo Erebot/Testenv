@@ -105,13 +105,13 @@ extends         Erebot_Testenv_TestCase
         }
 
         $deps = array(
-            '!Styling'                               => '\\Erebot\\Styling',
-            '!Styling\\Variables\\CurrencyInterface' => '\\Erebot\\Styling\\Variables\\CurrencyVariable',
-            '!Styling\\Variables\\DateTimeInterface' => '\\Erebot\\Styling\\Variables\\DateTimeVariable',
-            '!Styling\\Variables\\DurationInterface' => '\\Erebot\\Styling\\Variables\\DurationVariable',
-            '!Styling\\Variables\\FloatInterface'    => '\\Erebot\\Styling\\Variables\\FloatVariable',
-            '!Styling\\Variables\\IntegerInterface'  => '\\Erebot\\Styling\\Variables\\IntegerVariable',
-            '!Styling\\Variables\\StringInterface'   => '\\Erebot\\Styling\\Variables\\StringVariable',
+            '!Styling'                      => '\\Erebot\\Styling',
+            '!Styling\\Variables\\Currency' => '\\Erebot\\Styling\\Variables\\CurrencyVariable',
+            '!Styling\\Variables\\DateTime' => '\\Erebot\\Styling\\Variables\\DateTimeVariable',
+            '!Styling\\Variables\\Duration' => '\\Erebot\\Styling\\Variables\\DurationVariable',
+            '!Styling\\Variables\\Float'    => '\\Erebot\\Styling\\Variables\\FloatVariable',
+            '!Styling\\Variables\\Integer'  => '\\Erebot\\Styling\\Variables\\IntegerVariable',
+            '!Styling\\Variables\\String'   => '\\Erebot\\Styling\\Variables\\StringVariable',
         );
 
         foreach ($deps as $dep => $cls) {
