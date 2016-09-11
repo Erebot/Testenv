@@ -203,7 +203,7 @@ extends         Erebot_Testenv_TestCase
 
         $this->_serverConfig
             ->expects($this->any())
-            ->method('getNetworkConfig')
+            ->method('getNetworkCfg')
             ->will($this->returnValue($this->_networkConfig));
     }
 
