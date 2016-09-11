@@ -80,14 +80,14 @@ extends         Erebot_Testenv_TestCase
         $sxml = new SimpleXMLElement('<foo/>');
 
         // Build the basic pieces needed to create the module.
-        $this->_mainConfig = $this->getMock('\\Erebot\\Interfaces\\Config\\Main', array(), array(), '', FALSE, FALSE);
-        $this->_networkConfig = $this->getMock('\\Erebot\\Interfaces\\Config\\Network', array(), array($this->_mainConfig, $sxml), '', FALSE, FALSE);
-        $this->_serverConfig = $this->getMock('\\Erebot\\Interfaces\\Config\\Server', array(), array($this->_networkConfig, $sxml), '', FALSE, FALSE);
-        $this->_bot = $this->getMock('\\Erebot\\Interfaces\\Core', array(), array($this->_mainConfig), '', FALSE, FALSE);
-        $this->_connection = $this->getMock('\\Erebot\\Interfaces\\IrcConnection', array(), array($this->_bot, $this->_serverConfig), '', FALSE, FALSE);
-        $this->_translator = $this->getMock('\\Erebot\\IntlInterface', array(), array('', ''), '', FALSE, FALSE);
-        $this->_eventHandler = $this->getMock('\\Erebot\\Interfaces\\EventHandler', array(), array(), '', FALSE, FALSE);
-        $this->_numericHandler = $this->getMock('\\Erebot\\Interfaces\\NumericHandler', array(), array(), '', FALSE, FALSE);
+        $this->_mainConfig = $this->getMockBuilder('\\Erebot\\Interfaces\\Config\\Main')->getMock();
+        $this->_networkConfig = $this->getMockBuilder('\\Erebot\\Interfaces\\Config\\Network')->getMock();
+        $this->_serverConfig = $this->getMockBuilder('\\Erebot\\Interfaces\\Config\\Server')->getMock();
+        $this->_bot = $this->getMockBuilder('\\Erebot\\Interfaces\\Core')->getMock();
+        $this->_connection = $this->getMockBuilder('\\Erebot\\Interfaces\\IrcConnection')->getMock();
+        $this->_translator = $this->getMockBuilder('\\Erebot\\IntlInterface')->getMock();
+        $this->_eventHandler = $this->getMockBuilder('\\Erebot\\Interfaces\\EventHandler')->getMock();
+        $this->_numericHandler = $this->getMockBuilder('\\Erebot\\Interfaces\\NumericHandler')->getMock();
 
         $deps = array(
             '!Identity' => 'Erebot_Testenv_Stub_Identity',
