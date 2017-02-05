@@ -107,7 +107,7 @@ extends         PHPUnit_Framework_TestCase
         return $result;
     }
 
-    public function run(PHPUnit_Framework_TestResult $result = NULL)
+    public function run($result = NULL)
     {
         $this->setExpectedLogsFromAnnotations();
 
