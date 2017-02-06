@@ -19,7 +19,7 @@
 require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Utils.php');
 
 abstract class  Erebot_Testenv_TestCase
-extends         PHPUnit_Framework_TestCase
+extends         \PHPUnit\Framework\TestCase
 {
     private $expectedLogs = NULL;
     private $logStream = NULL;
@@ -107,7 +107,7 @@ extends         PHPUnit_Framework_TestCase
         return $result;
     }
 
-    public function run($result = NULL)
+    public function run(\PHPUnit\Framework\TestResult $result = NULL)
     {
         $this->setExpectedLogsFromAnnotations();
 
