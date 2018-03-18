@@ -80,6 +80,22 @@ extends         \PHPUnit\Framework\TestCase
 
     protected function runTest()
     {
+        $this->setExpectedLogsFromAnnotations();
+
+        $this->logStream = NULL;
+        if (class_exists('\\Plop\\Plop', TRUE)) {
+            $logging            = \Plop\Plop::getInstance();
+            $this->logStream    = fopen('php://temp', 'a+');
+
+            $handlers   = new \Plop\HandlersCollection();
+            $handler    = new \Plop\Handler\Stream($this->logStream);
+            $handler->setFormatter(
+                new \Plop\Formatter('%(levelname)s:%(message)s')
+            );
+            $handlers[] = $handler;
+            $logging->getLogger()->setHandlers($handlers);
+        }
+
         $result = parent::runTest();
 
         if ($this->logStream !== NULL) {
@@ -105,27 +121,6 @@ extends         \PHPUnit\Framework\TestCase
         }
 
         return $result;
-    }
-
-    public function run(\PHPUnit\Framework\TestResult $result = NULL)
-    {
-        $this->setExpectedLogsFromAnnotations();
-
-        $this->logStream = NULL;
-        if (class_exists('Plop', TRUE)) {
-            $logging            = Plop::getInstance();
-            $this->logStream    = fopen('php://temp', 'a+');
-
-            $handlers   = new Plop_HandlersCollection();
-            $handler    = new Plop_Handler_Stream($this->logStream);
-            $handler->setFormatter(
-                new Plop_Formatter('%(levelname)s:%(message)s')
-            );
-            $handlers[] = $handler;
-            $logging->getLogger()->setHandlers($handlers);
-        }
-
-        return parent::run($result);
     }
 }
 
