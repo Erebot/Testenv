@@ -82,41 +82,36 @@ extends         \PHPUnit\Framework\TestCase
     {
         $this->setExpectedLogsFromAnnotations();
 
-        $this->logStream = NULL;
-        if (class_exists('\\Plop\\Plop', TRUE)) {
-            $logging            = \Plop\Plop::getInstance();
-            $this->logStream    = fopen('php://temp', 'a+');
+        $logging            = \Plop\Plop::getInstance();
+        $this->logStream    = fopen('php://temp', 'a+');
 
-            $handlers   = new \Plop\HandlersCollection();
-            $handler    = new \Plop\Handler\Stream($this->logStream);
-            $handler->setFormatter(
-                new \Plop\Formatter('%(levelname)s:%(message)s')
-            );
-            $handlers[] = $handler;
-            $logging->getLogger()->setHandlers($handlers);
-        }
+        $handlers   = new \Plop\HandlersCollection();
+        $handler    = new \Plop\Handler\Stream($this->logStream);
+        $handler->setFormatter(
+            new \Plop\Formatter('%(levelname)s:%(message)s')
+        );
+        $handlers[] = $handler;
+        $logging->getLogger()->setHandlers($handlers);
 
         $result = parent::runTest();
 
-        if ($this->logStream !== NULL) {
-            $this->addToAssertionCount(1);
+        if ($this->expectedLogs !== NULL) {
             fseek($this->logStream, 0);
             $actualLogs = stream_get_contents($this->logStream);
             fclose($this->logStream);
             $actualLogs = array_map('rtrim', explode("\n", $actualLogs));
             $actualLogs = array_values(array_filter($actualLogs, 'strlen'));
 
-            if ($this->expectedLogs !== NULL) {
-                if (count($this->expectedLogs)) {
-                    $this->assertEquals($this->expectedLogs, $actualLogs);
-                }
+            $this->addToAssertionCount(1);
+            if (count($this->expectedLogs)) {
+                $this->assertEquals($this->expectedLogs, $actualLogs);
+            }
 
-                else if (count($actualLogs)) {
-                    $this->fail(
-                        "No logs expected, but we received:\n" .
-                        var_export($actualLogs, TRUE)
-                    );
-                }
+            else if (count($actualLogs)) {
+                $this->fail(
+                    "No logs expected, but we received:\n" .
+                    var_export($actualLogs, TRUE)
+                );
             }
         }
 
