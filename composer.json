@@ -26,9 +26,7 @@
         "phpunit/phpunit": "*",
         "erebot/callable-wrapper": "*",
         "erebot/styling": "*",
-        "erebot/timer": "*"
-    },
-    "require-dev": {
+        "erebot/timer": "*",
         "erebot/plop": "^0.6"
     },
     "extra": {

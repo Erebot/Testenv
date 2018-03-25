@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e4865fa9c67a459cdf74f5e2a2e602ac",
+    "content-hash": "08d2068c9072f8510157feac7ff32952",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -223,6 +223,69 @@
                 "translations"
             ],
             "time": "2016-12-24T15:26:42+00:00"
+        },
+        {
+            "name": "erebot/plop",
+            "version": "0.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Erebot/Plop.git",
+                "reference": "67b1d2927517f7cf09e650c13e0af0b423c05f4a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Erebot/Plop/zipball/67b1d2927517f7cf09e650c13e0af0b423c05f4a",
+                "reference": "67b1d2927517f7cf09e650c13e0af0b423c05f4a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pcre": "*",
+                "ext-sockets": "*",
+                "ext-spl": "*",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "erebot/buildenv": "~1.2.0",
+                "pdepend/pdepend": "*",
+                "phpmd/phpmd": "*",
+                "phpunit/php-code-coverage": "*",
+                "phpunit/phpunit": "*",
+                "psr/log": "*",
+                "sebastian/phpcpd": "*",
+                "squizlabs/php_codesniffer": "*"
+            },
+            "suggest": {
+                "psr/log": "Provides the PSR-3 logging framework"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Plop\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "François Poirotte",
+                    "email": "clicky@erebot.net",
+                    "role": "lead"
+                }
+            ],
+            "description": "A simple logging library for PHP",
+            "homepage": "https://github.com/Erebot/Plop",
+            "keywords": [
+                "log",
+                "logging"
+            ],
+            "time": "2014-12-28T18:42:31+00:00"
         },
         {
             "name": "erebot/styling",
@@ -2481,71 +2544,7 @@
             "time": "2018-01-29T19:49:41+00:00"
         }
     ],
-    "packages-dev": [
-        {
-            "name": "erebot/plop",
-            "version": "0.6.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Erebot/Plop.git",
-                "reference": "67b1d2927517f7cf09e650c13e0af0b423c05f4a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Erebot/Plop/zipball/67b1d2927517f7cf09e650c13e0af0b423c05f4a",
-                "reference": "67b1d2927517f7cf09e650c13e0af0b423c05f4a",
-                "shasum": ""
-            },
-            "require": {
-                "ext-pcre": "*",
-                "ext-sockets": "*",
-                "ext-spl": "*",
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "erebot/buildenv": "~1.2.0",
-                "pdepend/pdepend": "*",
-                "phpmd/phpmd": "*",
-                "phpunit/php-code-coverage": "*",
-                "phpunit/phpunit": "*",
-                "psr/log": "*",
-                "sebastian/phpcpd": "*",
-                "squizlabs/php_codesniffer": "*"
-            },
-            "suggest": {
-                "psr/log": "Provides the PSR-3 logging framework"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Plop\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-3.0+"
-            ],
-            "authors": [
-                {
-                    "name": "François Poirotte",
-                    "email": "clicky@erebot.net",
-                    "role": "lead"
-                }
-            ],
-            "description": "A simple logging library for PHP",
-            "homepage": "https://github.com/Erebot/Plop",
-            "keywords": [
-                "log",
-                "logging"
-            ],
-            "time": "2014-12-28T18:42:31+00:00"
-        }
-    ],
+    "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": [],
