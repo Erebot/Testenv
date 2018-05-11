@@ -85,7 +85,7 @@ extends         Erebot_Testenv_TestCase
         $this->_serverConfig = $this->getMockBuilder('\\Erebot\\Interfaces\\Config\\Server')->getMock();
         $this->_bot = $this->getMockBuilder('\\Erebot\\Interfaces\\Core')->getMock();
         $this->_connection = $this->getMockBuilder('\\Erebot\\Interfaces\\IrcConnection')->getMock();
-        $this->_translator = $this->getMockBuilder('\\Erebot\\IntlInterface')->getMock();
+        $this->_translator = $this->getMockBuilder('\\Erebot\\Intl\\TranslatorInterface')->getMock();
         $this->_eventHandler = $this->getMockBuilder('\\Erebot\\Interfaces\\EventHandler')->getMock();
         $this->_numericHandler = $this->getMockBuilder('\\Erebot\\Interfaces\\NumericHandler')->getMock();
 
