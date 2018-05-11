@@ -25,7 +25,7 @@
         "sebastian/phpcpd": "*",
         "phpunit/phpunit": "*",
         "erebot/callable-wrapper": "*",
-        "erebot/styling": "*",
+        "erebot/styling": "^0.1.0",
         "erebot/timer": "*",
         "erebot/plop": "^0.6"
     },
