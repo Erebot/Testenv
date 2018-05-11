@@ -25,7 +25,7 @@ abstract class Erebot_Testenv_Stub_Styling_Variable
         $this->_args = func_get_args();
     }
 
-    public function render(\Erebot\IntlInterface $translator)
+    public function render(\Erebot\Intl\TranslatorInterface $translator)
     {
         return var_export($this->_args, TRUE);
     }
